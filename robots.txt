@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://miaredick.github.io/ryanr/sitemap.xml

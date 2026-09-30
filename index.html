@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ryan R · Atlanta-raised, Brooklyn-based DJ</title>
+<meta name="description" content="Ryan R (Ryan Redick) is an Atlanta-raised, Brooklyn-based DJ playing hypnotic techno, hard groove, leftfield house, electro and trance. Sets, radio mixes and the rooms he has played.">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:type" content="website">
+<meta property="og:description" content="Atlanta-raised, Brooklyn-based DJ. Hypnotic techno, hard groove, electro and leftfield house. Sets, radio mixes and the rooms he has played.">
+<meta property="og:image" content="https://miaredick.github.io/ryanr/assets/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:title" content="Ryan R · Atlanta-raised, Brooklyn-based DJ">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://miaredick.github.io/ryanr/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Ryan R", "alternateName": "Ryan Redick", "jobTitle": "DJ", "description": "Atlanta-raised, Brooklyn-based DJ playing hypnotic techno, hard groove, electro and leftfield house.", "url": "https://miaredick.github.io/ryanr/", "homeLocation": {"@type": "Place", "name": "Brooklyn, New York"}, "sameAs": ["https://soundcloud.com/rian408", "https://www.instagram.com/ryanredick/"]}</script>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,300..900&family=Hanken+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+:root {
+  --sc-canvas: #0a0a0a;  --sc-surface: #151515;
+  --sc-ink: #f2f1ee;     --sc-ink-soft: #a3a19c;
+  --sc-accent: #ff2d1a;  --sc-accent-ink: #ffffff;   /* exit-sign red: the one colour */
+  --sc-font-display: "Anybody", "Arial Narrow", system-ui, sans-serif;
+  --sc-font-text: "Hanken Grotesk", system-ui, sans-serif;
+  --sc-font-mono: "Hanken Grotesk", system-ui, sans-serif;
+  --paper: #f4f3ef; --paper-ink: #0a0a0a; --paper-soft: #5f5d58; --paper-line: rgb(10 10 10 / 0.14);
+  --line: rgb(242 241 238 / 0.18);
+  --ticker-h: 34px; --bar-h: 60px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: dark;
+}
+html { background: var(--sc-canvas); }
+body { margin: 0; background: var(--sc-canvas); color: var(--sc-ink); font: 400 var(--sc-t-base)/1.6 var(--sc-font-text); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
+::selection { background: var(--sc-accent); color: #fff; }
+:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ------------------------------------------------------------ ticker ---- */
+/* Where he has played, run like the strip over a club's door. */
+.ticker {
+  position: fixed; inset: 0 0 auto 0; height: var(--ticker-h); z-index: 61; overflow: hidden; white-space: nowrap;
+  background: var(--sc-accent); color: #fff;
+  font: 800 0.8rem/var(--ticker-h) var(--sc-font-display); font-stretch: 125%; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.ticker__track { display: inline-flex; animation: tick 50s linear infinite; will-change: transform; }
+.ticker__run { display: inline-flex; gap: 2.4rem; padding-right: 2.4rem; }
+.ticker__run span { display: inline-flex; align-items: center; gap: 0.8em; }
+.ticker__run b { font-weight: 500; opacity: 0.75; }
+.ticker__run i { width: 7px; height: 7px; background: #fff; display: inline-block; }
+@keyframes tick { to { transform: translate3d(-50%, 0, 0); } }
+.ticker:hover .ticker__track { animation-play-state: paused; }
+
+/* ---------------------------------------------------------------- bar ---- */
+.bar {
+  position: fixed; top: var(--ticker-h); inset-inline: 0; height: var(--bar-h); z-index: 60;
+  display: flex; align-items: center; justify-content: space-between; padding-inline: var(--sc-gutter); pointer-events: none;
+  color: var(--sc-ink); transition: color 300ms var(--ease);
+}
+.bar > * { pointer-events: auto; }
+.mark { font: 900 1.05rem/1 var(--sc-font-display); font-stretch: 120%; letter-spacing: 0.02em; text-transform: uppercase; text-decoration: none; }
+.mark i { font-style: normal; color: var(--sc-accent); }
+.bar__right { display: flex; gap: 8px; align-items: center; }
+.btn {
+  appearance: none; border: 0; cursor: pointer; text-decoration: none; white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55em; height: 44px; padding: 0 1.2rem; border-radius: 0;
+  background: var(--sc-accent); color: #fff; font: 700 0.9rem/1 var(--sc-font-text); letter-spacing: 0.01em;
+  transition: transform 140ms var(--ease), background-color 200ms var(--ease), color 200ms var(--ease);
+}
+.btn:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .btn:hover { background: #ff4a39; } }
+.btn--ghost { background: rgb(10 10 10 / 0.4); color: var(--sc-ink); box-shadow: inset 0 0 0 1px rgb(242 241 238 / 0.35); }
+@media (hover: hover) and (pointer: fine) { .btn--ghost:hover { background: rgb(10 10 10 / 0.6); } }
+.btn svg { width: 17px; height: 17px; flex: none; }
+.snd { width: 44px; padding: 0; }
+.bar.is-light { color: var(--paper-ink); }
+.bar.is-light .btn--ghost { color: var(--paper-ink); background: rgb(255 255 255 / 0.55); box-shadow: inset 0 0 0 1px var(--paper-line); }
+
+/* The route: a crossfader. The cap rides the rail as you scroll. */
+.fader { position: fixed; z-index: 60; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); translate: -50% 0; width: min(520px, calc(100vw - 2 * var(--sc-gutter))); }
+.fader ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); position: relative; }
+.fader ol::before { content: ""; position: absolute; left: 10%; right: 10%; top: 13px; height: 2px; background: color-mix(in oklab, var(--sc-ink) 45%, transparent); }
+.fader__knob {
+  position: absolute; top: 4px; left: 0; width: 12px; height: 20px; margin-left: -6px; z-index: 3; pointer-events: none;
+  background: var(--sc-accent); box-shadow: 0 1px 5px rgb(0 0 0 / 0.5);
+  transform: translate3d(calc(var(--k, 0) * 1px), 0, 0); will-change: transform;
+}
+.fader__knob::after { content: ""; position: absolute; left: 5px; top: 3px; bottom: 3px; width: 2px; background: #fff; }
+.fader button {
+  appearance: none; background: none; border: 0; cursor: pointer; color: var(--sc-ink-soft);
+  display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 8px 0 4px; width: 100%; min-height: 44px;
+  font: 700 0.68rem/1.2 var(--sc-font-text); letter-spacing: 0.1em; text-transform: uppercase; text-shadow: 0 1px 3px rgb(0 0 0 / 0.7);
+  transition: color 160ms var(--ease);
+}
+.fader button::before { content: ""; width: 2px; height: 10px; background: currentColor; position: relative; z-index: 1; }
+.fader button[aria-current="true"] { color: var(--sc-ink); }
+.fader.is-light button { color: var(--paper-soft); text-shadow: none; }
+.fader.is-light button[aria-current="true"] { color: var(--paper-ink); }
+.fader.is-light ol::before { background: var(--paper-line); }
+@media (min-width: 861px) {
+  .fader button span { opacity: 0; transition: opacity 180ms var(--ease); }
+  .fader button[aria-current="true"] span, .fader:hover button span, .fader:focus-within button span { opacity: 1; }
+}
+
+/* ------------------------------------------------------ the door (hero) -- */
+/* You arrive outside. The black wall has his name cut through it, and the
+   room is on the other side: you see it through the letters and hear it
+   through the wall. Scroll and you go through the R. */
+.hero { position: fixed; inset: 0; z-index: 2; overflow: clip; pointer-events: none; isolation: isolate; will-change: opacity; }
+.hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #140404 url(assets/room.jpg) center / cover; }
+.haze { position: absolute; inset: 0; background: #d9d6d0; opacity: 0.42; }
+.door { position: absolute; inset: -2px; background: #000; mix-blend-mode: multiply; display: grid; place-items: center; will-change: transform; }
+.door__name { margin: 0; color: #fff; white-space: nowrap; text-transform: uppercase; font: 900 20vw/0.8 var(--sc-font-display); font-stretch: 150%; letter-spacing: -0.035em; translate: 0 -4vh; }
+.door__name .br { display: inline; }
+.street { position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); bottom: calc(84px + env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: end; gap: 24px; pointer-events: none; }
+.street > * { pointer-events: auto; }
+.street p { margin: 0; max-width: 34ch; line-height: 1.45; }
+.street small { display: block; margin-top: 6px; color: var(--sc-ink-soft); font: 700 0.7rem/1.5 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; }
+.sound { min-width: 8.5rem; }
+/* The way in: a vertical cue on the right edge, a red pulse running down a line. */
+.cue { position: absolute; right: clamp(14px, 2.2vw, 32px); top: 50%; translate: 0 -50%; display: flex; flex-direction: column; align-items: center; gap: 14px; transition: opacity 300ms var(--ease); }
+.cue__label { writing-mode: vertical-rl; font: 800 0.66rem/1 var(--sc-font-text); letter-spacing: 0.3em; text-transform: uppercase; color: var(--sc-ink); }
+.cue__line { position: relative; width: 1px; height: 72px; background: rgb(242 241 238 / 0.35); overflow: hidden; }
+.cue__line::after { content: ""; position: absolute; left: -1px; top: 0; width: 3px; height: 18px; background: var(--sc-accent); animation: cue 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes cue { from { transform: translateY(-18px); } to { transform: translateY(72px); } }
+.cue.is-gone { opacity: 0; }
+
+/* ---------------------------------------------------------------- copy --- */
+.fill { position: absolute; inset: 0; pointer-events: none !important; }
+.fill[style*="pointer-events: auto"] :is(a, button, input, select, textarea, label, form) { pointer-events: auto; }
+.side-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(0 0 0 / 0.86), rgb(0 0 0 / 0.5) 42%, transparent 66%), linear-gradient(to top, rgb(0 0 0 / 0.6), transparent 35%); }
+.eyebrow { margin: 0 0 14px; font: 700 0.72rem/1.3 var(--sc-font-text); letter-spacing: 0.16em; text-transform: uppercase; color: var(--sc-accent); }
+.big { margin: 0; font: 900 clamp(2.4rem, 6vw, 5.6rem)/0.9 var(--sc-font-display); font-stretch: 62%; letter-spacing: -0.015em; text-transform: uppercase; text-wrap: balance; max-width: 13ch; }
+.block { position: absolute; left: var(--sc-gutter); top: calc(var(--ticker-h) + var(--bar-h) + 5vh); width: min(40rem, calc(100% - 2 * var(--sc-gutter))); }
+.block p.body { margin: 20px 0 0; max-width: 46ch; line-height: 1.6; }
+.block p.soft { color: var(--sc-ink-soft); }
+.genres { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.genres li { padding: 7px 11px; box-shadow: inset 0 0 0 1px var(--line); font: 600 0.78rem/1 var(--sc-font-text); letter-spacing: 0.03em; }
+.gigs { list-style: none; margin: 22px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.gigs li { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 4px 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.g-name { font: 800 clamp(1.15rem, 2vw, 1.7rem)/1.05 var(--sc-font-display); font-stretch: 75%; text-transform: uppercase; }
+.g-where { color: var(--sc-ink-soft); font-size: 0.92rem; }
+.listen-sc { margin-top: 22px; }
+.g-when { color: var(--sc-ink); font-weight: 700; margin-right: 0.4em; }
+.flyers { position: absolute; right: var(--sc-gutter); bottom: calc(86px + env(safe-area-inset-bottom)); list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; }
+.flyers img { width: 120px; height: auto; display: block; }
+.stills-poster { filter: grayscale(1) contrast(1.08) brightness(0.8); object-position: 45% 30%; }
+.stills-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / 0.78), transparent 45%); }
+.still-inset { position: absolute; right: var(--sc-gutter); top: calc(var(--ticker-h) + var(--bar-h) + 6vh); width: min(24vw, 340px); margin: 0; box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7); }
+.still-inset img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.05); }
+.stills-line { position: absolute; left: var(--sc-gutter); bottom: calc(86px + env(safe-area-inset-bottom)); max-width: 44rem; }
+.stills-line .big { max-width: 16ch; }
+.stills-credit { margin: 14px 0 0; font: 700 0.7rem/1.4 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sc-ink-soft); }
+.radio-head { margin: 26px 0 0; }
+.radio-head + .for { margin-top: 10px; }
+.for { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; font: 900 clamp(1.2rem, 2.2vw, 1.8rem)/1.1 var(--sc-font-display); font-stretch: 80%; text-transform: uppercase; }
+.for li + li::before { content: "/"; color: var(--sc-accent); margin-right: 18px; font-weight: 500; }
+
+/* The room: his name and the whiteout. */
+.room-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0.25) 42%, transparent 62%); }
+.white { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+.room { position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); bottom: calc(86px + env(safe-area-inset-bottom)); display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+.room__name {
+  margin: 0; line-height: 0.82; text-transform: uppercase; white-space: nowrap; color: #fff;
+  font-family: var(--sc-font-display); font-weight: 900; font-size: clamp(3.4rem, 12vw, 11.5rem); letter-spacing: -0.03em;
+  font-stretch: calc(var(--w, 70) * 1%);
+  transform: scale(calc(1 + var(--kick, 0) * 0.035)); transform-origin: 0 100%;
+}
+.room__name .rule { display: block; height: 0.06em; width: calc(1.2em + var(--kick, 0) * 1.2em); background: var(--sc-accent); margin-top: 0.08em; }
+.is-building .room__name { mix-blend-mode: difference; }
+.is-building .room__name .rule { opacity: 0; }
+.room__meta { margin: 14px 0 0; line-height: 1.45; max-width: 40ch; }
+.room__meta small { display: block; color: var(--sc-ink-soft); font: 700 0.7rem/1.5 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 6px; }
+.is-building .room__meta { opacity: calc(1 - var(--b, 0) * 1.4); }
+.hold {
+  flex: none; position: relative; width: 128px; height: 128px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+  background: rgb(10 10 10 / 0.35); color: #fff; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: none;
+  display: grid; place-items: center; text-align: center; font: 800 0.76rem/1.25 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase;
+  transition: transform 160ms var(--ease);
+}
+.hold svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.hold circle { fill: none; stroke-width: 3; }
+.hold .track { stroke: rgb(255 255 255 / 0.35); }
+.hold .ring { stroke: var(--sc-accent); stroke-dasharray: 390; stroke-dashoffset: calc(390 - var(--b, 0) * 390); }
+.hold span { position: relative; }
+.hold:active { transform: scale(0.96); }
+.is-building .hold { color: #000; background: rgb(255 255 255 / 0.3); }
+.hold-tip { position: absolute; top: 42%; left: 50%; translate: -50% 0; margin: 0; font: 900 clamp(1.6rem, 3.4vw, 2.6rem)/1 var(--sc-font-display); font-stretch: 120%; text-transform: uppercase; color: #000; opacity: 0; pointer-events: none; transition: opacity 200ms; white-space: nowrap; }
+.is-full .hold-tip { opacity: 1; }
+.credit-live { position: absolute; top: calc(var(--ticker-h) + var(--bar-h) + 14px); left: var(--sc-gutter); margin: 0; font: 700 0.7rem/1.4 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; color: rgb(255 255 255 / 0.75); }
+
+/* The close. The lights are up, nothing moves. */
+.book {
+  position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); top: calc(var(--ticker-h) + var(--bar-h) + 2vh); bottom: 84px;
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; max-width: 76rem; margin-inline: auto;
+  color: var(--paper-ink);
+}
+.book h2 { margin: 0; font: 900 clamp(2.8rem, 7vw, 6.6rem)/0.86 var(--sc-font-display); font-stretch: 62%; text-transform: uppercase; letter-spacing: -0.015em; }
+.book h2 .rule { display: block; width: 1.2em; height: 0.06em; background: var(--sc-accent); margin-top: 0.12em; }
+.book .lede { margin: 20px 0 0; max-width: 36ch; line-height: 1.5; }
+.ways { list-style: none; margin: 26px 0 0; padding: 0; border-top: 1px solid var(--paper-line); }
+.ways a { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; min-height: 52px; padding: 14px 0; border-bottom: 1px solid var(--paper-line); text-decoration: none; }
+.ways .k { font: 700 0.7rem/1 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-soft); }
+.ways .v { font: 800 clamp(1.05rem, 1.8vw, 1.5rem)/1.1 var(--sc-font-display); font-stretch: 90%; overflow-wrap: anywhere; }
+@media (hover: hover) and (pointer: fine) { .ways a:hover .v { color: var(--sc-accent); } }
+.book__credit { margin: 22px 0 0; font: 500 0.68rem/1.6 var(--sc-font-text); letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper-soft); }
+.book__credit a { color: var(--paper-ink); }
+.sets { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--paper-line); }
+.sets li { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--paper-line); }
+.set { flex: 1; min-width: 0; appearance: none; background: none; border: 0; padding: 16px 0; cursor: pointer; color: var(--paper-ink); text-align: left;
+  display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 2px 14px; align-items: center; }
+.set__play { grid-row: span 2; width: 40px; height: 40px; border-radius: 50%; background: var(--paper-ink); color: #fff; display: grid; place-items: center; transition: background-color 160ms var(--ease); }
+.set__play svg { width: 16px; height: 16px; fill: currentColor; }
+.set__play .eq { display: none; }
+.set .t { font: 900 clamp(1.2rem, 2.3vw, 2.1rem)/1.02 var(--sc-font-display); font-stretch: 72%; text-transform: uppercase; }
+.set .d { font: 700 0.72rem/1.3 var(--sc-font-text); letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-soft); white-space: nowrap; }
+.set .w { grid-column: 2 / -1; color: var(--paper-soft); font-size: 0.92rem; }
+.set[aria-pressed="true"] .set__play { background: var(--sc-accent); }
+.set[aria-pressed="true"] .t { color: var(--sc-accent); }
+.set[aria-pressed="true"] .pl { display: none; }
+.set[aria-pressed="true"] .eq { display: inline; }
+.set[aria-pressed="true"] .eq rect { transform-origin: 50% 100%; transform-box: fill-box; animation: eq 0.9s var(--ease) infinite alternate; }
+.set[aria-pressed="true"] .eq rect:nth-child(2) { animation-delay: -0.3s; } .set[aria-pressed="true"] .eq rect:nth-child(3) { animation-delay: -0.6s; }
+.set.is-paused .eq rect { animation-play-state: paused; }
+@keyframes eq { from { transform: scaleY(0.25); } to { transform: scaleY(1); } }
+@media (hover: hover) and (pointer: fine) { .set:hover .t { color: var(--sc-accent); } .set:hover .set__play { background: var(--sc-accent); } }
+.set__out { flex: none; font: 700 0.68rem/1 var(--sc-font-text); letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-soft); text-decoration: none; padding: 12px 0 12px 8px; }
+@media (hover: hover) and (pointer: fine) { .set__out:hover { color: var(--paper-ink); } }
+.player { margin-top: 14px; }
+.player iframe { display: block; width: 100%; height: 20px; border: 0; }
+@media (prefers-reduced-motion: reduce) { .set[aria-pressed="true"] .eq rect { animation: none; } }
+form.f { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: clamp(18px, 2.6vw, 32px); background: #fff; box-shadow: 0 1px 0 var(--paper-line), 0 24px 60px -30px rgb(0 0 0 / 0.3); }
+.f label, .f legend { display: grid; gap: 7px; font: 700 0.7rem/1.2 var(--sc-font-text); letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-soft); }
+.f fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.f legend { margin-bottom: 8px; }
+.f .wide { grid-column: 1 / -1; }
+.f input, .f textarea, .f select { width: 100%; box-sizing: border-box; font: 400 1rem/1.4 var(--sc-font-text); color: var(--paper-ink); letter-spacing: 0; text-transform: none; background: var(--paper); border: 1px solid transparent; border-radius: 0; padding: 0.65rem 0.8rem; min-height: 46px; caret-color: var(--sc-accent); }
+.f input:focus-visible, .f textarea:focus-visible, .f select:focus-visible { outline: 2px solid var(--paper-ink); outline-offset: 0; }
+.f textarea { resize: vertical; min-height: 64px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { position: relative; display: inline-flex; }
+.chip input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; min-height: 0; }
+.chip span { display: inline-flex; align-items: center; min-height: 38px; padding: 0 0.85rem; box-shadow: inset 0 0 0 1px var(--paper-line); font: 500 0.92rem/1 var(--sc-font-text); color: var(--paper-ink); letter-spacing: 0; text-transform: none; transition: background-color 160ms, color 160ms; }
+.chip input:checked + span { background: var(--paper-ink); color: #fff; box-shadow: none; }
+.chip input:focus-visible + span { outline: 2px solid var(--sc-accent); outline-offset: 2px; }
+.f__row { grid-column: 1 / -1; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.f .btn { background: var(--paper-ink); height: 50px; padding: 0 1.6rem; }
+@media (hover: hover) and (pointer: fine) { .f .btn:hover { background: var(--sc-accent); } }
+.f__status { margin: 0; font-size: 0.9rem; color: var(--paper-soft); min-height: 1.4em; max-width: 36ch; }
+
+/* -------------------------------------------------------------- phone ---- */
+@media (max-width: 860px) {
+  :root { --bar-h: 54px; }
+  .mark { font-size: 0.92rem; }
+  .bar .btn { height: 40px; padding-inline: 0.9rem; font-size: 0.84rem; }
+  .bar .snd { width: 40px; padding: 0; }
+  .street { flex-direction: row; align-items: center; bottom: calc(84px + env(safe-area-inset-bottom)); }
+  .street p { font-size: var(--sc-t-sm); }
+  .sound { min-width: 0; width: 44px; padding: 0; }
+  .sound span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .fader button span { display: none; }
+  .fader button[aria-current="true"] span { display: inline; position: absolute; top: -14px; white-space: nowrap; }
+  .fader button { position: relative; }
+  .side-scrim { background: linear-gradient(to bottom, rgb(0 0 0 / 0.9) 0%, rgb(0 0 0 / 0.84) 55%, rgb(0 0 0 / 0.35) 78%, transparent 92%); }
+  .block { top: calc(var(--ticker-h) + var(--bar-h) + 1rem); }
+  .block p.body { font-size: var(--sc-t-sm); margin-top: 14px; }
+  .big { font-size: clamp(2.2rem, 12vw, 3.2rem); }
+  .gigs li { padding: 8px 0; }
+  .set { grid-template-columns: 40px minmax(0, 1fr); padding: 12px 0; }
+  .set__play { grid-row: span 3; }
+  .set .d, .set .w { grid-column: 2; }
+  .set .w { display: none; }
+  .set__out { font-size: 0; padding: 12px 4px 12px 12px; }
+  .set__out span { font-size: 1.1rem; }
+  .still-inset { width: 42vw; top: calc(var(--ticker-h) + var(--bar-h) + 1rem); }
+  .stills-poster { object-position: 42% 40%; }
+  .room { flex-direction: column; align-items: stretch; gap: 20px; }
+  .room__name { font-size: clamp(3.2rem, 19vw, 5.4rem); }
+  .room__meta { font-size: var(--sc-t-sm); }
+  .hold { width: 100%; height: 60px; border-radius: 0; }
+  .hold svg { display: none; }
+  .hold::after { content: ""; position: absolute; left: 0; bottom: 0; height: 4px; width: calc(var(--b, 0) * 100%); background: var(--sc-accent); }
+  .book { grid-template-columns: 1fr; gap: 18px; align-content: start; top: calc(var(--ticker-h) + var(--bar-h) + 0.5rem); bottom: 70px; overflow-y: auto; overscroll-behavior: contain; }
+  .book h2 { font-size: clamp(2.4rem, 13vw, 3.4rem); }
+  .book .lede { margin-top: 10px; font-size: var(--sc-t-sm); }
+  .ways { margin-top: 14px; }
+  .book__credit { display: none; }
+  .sets { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--paper-line); }
+form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
+}
+@media (max-width: 860px) and (orientation: portrait) {
+  .door__name .br { display: block; height: 0; }
+  .door__name { text-align: center; line-height: 0.86; translate: 0 -8vh; }
+  /* Listen on a phone: the sets first, then the ways to reach him */
+  .book > div:first-child { display: contents; }
+  .book h2 { order: 1; } .book .lede { order: 2; } .sets-wrap { order: 3; } .ways { order: 4; margin-top: 4px; }
+  .book { top: calc(var(--ticker-h) + var(--bar-h) + 1rem); bottom: 84px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent); padding-bottom: 28px; }
+}
+/* Phones held sideways: very little height. Slimmer chrome, no slider,
+   copy set in two columns so nothing runs off the bottom. */
+@media (max-height: 520px) and (orientation: landscape) {
+  :root { --ticker-h: 24px; --bar-h: 46px; }
+  .ticker { font-size: 0.66rem; }
+  .bar .btn { height: 36px; }
+  .bar .snd { width: 36px; }
+  .fader { display: none; }
+  .door__name { translate: 0 -2vh; }
+  .street { bottom: calc(14px + env(safe-area-inset-bottom)); }
+  .cue { display: none; }
+  .big { font-size: clamp(1.6rem, 4.4vw, 2.2rem); max-width: none; }
+  .block { top: calc(var(--ticker-h) + var(--bar-h) + 0.6rem); width: calc(100% - 2 * var(--sc-gutter)); column-count: 2; column-gap: 32px; }
+  .block .big, .block .eyebrow { column-span: all; }
+  .block p.body { font-size: 0.8rem; line-height: 1.5; margin-top: 8px; }
+  .block p.body:first-of-type { margin-top: 12px; }
+  .genres { margin-top: 10px; } .genres li { padding: 5px 8px; font-size: 0.7rem; }
+  .listen-sc { margin-top: 10px; height: 36px; }
+  .gigs { margin-top: 8px; } .gigs li { padding: 5px 0; break-inside: avoid; }
+  .g-name { font-size: 1rem; } .g-where { font-size: 0.78rem; }
+  .radio-head { margin-top: 10px; } .for { font-size: 1rem; }
+  .side-scrim { background: rgb(0 0 0 / 0.72); }
+  .still-inset { width: 20vw; top: calc(var(--ticker-h) + var(--bar-h) + 0.6rem); }
+  .stills-line { bottom: 16px; } .stills-line .big { max-width: 16ch; }
+  .room { flex-direction: row; align-items: end; bottom: 16px; }
+  .room__name { font-size: clamp(2.4rem, 9vw, 3.6rem); }
+  .room__meta { font-size: 0.8rem; margin-top: 8px; }
+  .hold { width: 96px; height: 96px; border-radius: 50%; }
+  .hold svg { display: block; } .hold::after { display: none; }
+  .credit-live { top: calc(var(--ticker-h) + var(--bar-h) + 6px); }
+  .book { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 24px; top: calc(var(--ticker-h) + var(--bar-h) + 0.5rem); bottom: 12px; align-content: start; }
+  .book h2 { font-size: 2.2rem; } .book .lede { font-size: 0.82rem; margin-top: 8px; }
+  .ways a { min-height: 40px; padding: 8px 0; } .ways .v { font-size: 0.85rem; overflow-wrap: normal; white-space: nowrap; }
+  .set { padding: 8px 0; } .set .t { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker__track { animation: none; }
+  .ticker { overflow-x: auto; }
+  .room__name { transform: none; }
+  .cue__line::after { animation: none; top: 27px; }
+}
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-label="Where he has played">
+  <div class="ticker__track"><div class="ticker__run" id="tickerRun"></div></div>
+</div>
+
+<header class="bar" id="bar">
+  <a class="mark" href="#top" aria-label="Ryan R, back to the top">Ryan <i>R</i></a>
+  <div class="bar__right">
+    <button class="btn btn--ghost snd" id="soundBar" type="button" aria-pressed="false" aria-label="Sound on">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" opacity="0.35"/></svg>
+    </button>
+    <a class="btn" href="#listen" data-go="4">Listen</a>
+  </div>
+</header>
+<audio id="aud" src="assets/room-audio.m4a" preload="none" loop></audio>
+
+<main id="top" data-sc-mode="worldflight" data-sc-seam="0.16" data-sc-lerp="0.12">
+
+  <div data-sc-world>
+    <div data-sc-segment data-sc-w="1.1" data-sc-waypoint="The floor">
+      <img class="sc-world__poster" src="assets/floor.jpg" alt="" decoding="async">
+      <video data-sc-src="assets/floor.mp4" data-sc-src-mobile="assets/floor-m.mp4" muted playsinline></video>
+    </div>
+    <div data-sc-segment data-sc-w="1.1" data-sc-waypoint="Played">
+      <img class="sc-world__poster" src="assets/lasers.jpg" alt="" decoding="async">
+      <video data-sc-src="assets/lasers.mp4" data-sc-src-mobile="assets/lasers-m.mp4" muted playsinline></video>
+    </div>
+    <div data-sc-segment data-sc-w="1.1" data-sc-waypoint="Stills">
+      <img class="sc-world__poster stills-poster" src="assets/ryan-photo.jpg" alt="" decoding="async">
+    </div>
+    <div data-sc-segment data-sc-w="1.9" data-sc-linger="0.35" data-sc-waypoint="The room" id="roomSeg">
+      <img class="sc-world__poster" src="assets/room.jpg" alt="" decoding="async">
+      <!-- No scrub clip on purpose: his set plays in real time here (added by the page). -->
+    </div>
+    <div data-sc-segment data-sc-w="1.1" data-sc-waypoint="Listen">
+      <img class="sc-world__poster" src="assets/paper.jpg" alt="" decoding="async">
+    </div>
+  </div>
+
+  <section class="hero" id="hero" aria-labelledby="heroName">
+    <video id="live" muted loop playsinline preload="auto" poster="assets/room.jpg"
+           aria-label="Ryan R playing to a full dance floor in a red-lit club"></video>
+    <div class="haze" id="haze"></div>
+    <div class="door" id="door" aria-hidden="true"><p class="door__name" id="doorLetters">Ryan<span class="br"> </span>R</p></div>
+    <div class="cue" id="cue" aria-hidden="true"><span class="cue__label">Scroll to go in</span><span class="cue__line"></span></div>
+    <h1 class="sr" id="heroName">Ryan R, Brooklyn DJ</h1>
+    <div class="street" id="street">
+      <p>Atlanta-raised, Brooklyn-based DJ.<small>Hypnotic techno · Hard groove · Electro · Leftfield house</small></p>
+      <button class="btn btn--ghost sound" id="sound" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path id="soundWave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" opacity="0.35"/></svg>
+        <span id="soundLabel">Sound on</span>
+      </button>
+    </div>
+  </section>
+
+  <div data-sc-world-copy>
+
+    <div class="fill" data-sc-copy data-sc-window="0.087 0.195 0.22 0.16">
+      <div class="side-scrim"></div>
+      <div class="block">
+        <h2 class="big">For the people dancing.</h2>
+        <p class="body">Ryan Redick plays as Ryan R: an Atlanta-raised, Brooklyn-based DJ rooted in the underground, blending hypnotic techno, hard groove, leftfield house, electro and trance into powerful, percussive sets.</p>
+        <p class="body soft">An up-and-coming name in the city&rsquo;s underground, he waits tables by day and lives for the nights behind the decks. DJing is how he met his wife, Abeille, and the two still play back to back. He plays because he loves it, and you can hear it.</p>
+        <ul class="genres" aria-label="What he plays"><li>Hypnotic techno</li><li>Hard groove</li><li>Leftfield house</li><li>Electro</li><li>Trance</li></ul>
+        <a class="btn listen-sc" href="https://soundcloud.com/rian408" target="_blank" rel="noopener">Listen on SoundCloud <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <div class="fill" data-sc-copy data-sc-window="0.2 0.365 0.2 0.16">
+      <div class="side-scrim"></div>
+      <div class="block">
+        <p class="eyebrow">Played</p>
+        <ul class="gigs" id="gigs"></ul>
+        <p class="eyebrow radio-head">On air</p>
+        <ul class="for" aria-label="Radio"><li>Sector FM</li><li>AR Radio</li></ul>
+      </div>
+    </div>
+
+    <div class="fill" data-sc-copy data-sc-window="0.37 0.535 0.22 0.18">
+      <div class="stills-scrim"></div>
+      <figure class="still-inset">
+        <img src="assets/ryan-photo-2.jpg" alt="Ryan R playing an outdoor daytime set under hanging disco balls, the crowd behind him" width="1110" height="1452" loading="lazy" decoding="async">
+      </figure>
+      <div class="stills-line">
+        <p class="big">Basements at night. Backyards in the sun.</p>
+        <p class="stills-credit">Photos: EKO · @mysticfocusbykelly</p>
+      </div>
+    </div>
+
+    <div class="fill" data-sc-copy data-sc-window="0.545 0.835 0.12 0.1" id="roomCopy">
+      <div class="room-scrim"></div>
+      <!-- inside the room's own layer, so the name can invert against it -->
+      <div class="white" id="white"></div>
+      <p class="hold-tip" aria-hidden="true">Let go</p>
+      <p class="credit-live">Live, New York</p>
+      <div class="room">
+        <div>
+          <h2 class="room__name" id="roomName">Ryan R<span class="rule"></span></h2>
+          <p class="room__meta">Ryan Redick. Hypnotic techno, hard groove, leftfield house, electro, trance.<small>Atlanta-raised · Brooklyn-based</small></p>
+        </div>
+        <button class="hold" id="hold" type="button" aria-describedby="holdHelp">
+          <svg viewBox="0 0 128 128" aria-hidden="true"><circle class="track" cx="64" cy="64" r="62"/><circle class="ring" cx="64" cy="64" r="62"/></svg>
+          <span id="holdLabel">Hold<br>to build</span>
+        </button>
+        <p id="holdHelp" hidden>Press and hold to build the track up to a whiteout, then let go for the drop.</p>
+      </div>
+    </div>
+
+    <div class="fill" data-sc-copy data-sc-window="0.845 1 0.3 0" id="listen">
+      <div class="book">
+        <div>
+          <h2>Sets &amp;<br>mixes.<span class="rule"></span></h2>
+          <p class="lede">Radio guest mixes and live recordings. Tap one to play it here.</p>
+          <ul class="ways" id="ways"></ul>
+          <p class="book__credit">Photographs and footage used with thanks. Also playing: <a href="https://abeillemusic.com/">Abeille</a></p>
+        </div>
+        <div class="sets-wrap">
+          <ul class="sets" id="sets" aria-label="Sets and mixes"></ul>
+          <div class="player" id="player" hidden></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-sc-spacer aria-hidden="true"></div>
+</main>
+
+<nav class="fader" id="fader" aria-label="Jump through the night">
+  <ol id="faderList">
+    <li><button type="button" data-go="0"><span>The floor</span></button></li>
+    <li><button type="button" data-go="1"><span>Played</span></button></li>
+    <li><button type="button" data-go="2"><span>Stills</span></button></li>
+    <li><button type="button" data-go="3"><span>The room</span></button></li>
+    <li><button type="button" data-go="4"><span>Listen</span></button></li>
+  </ol>
+  <div class="fader__knob" id="knob"></div>
+</nav>
+
+<div class="sc-grain" aria-hidden="true"></div>
+
+<script src="scrollcraft.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------------- data --
+     Only real things. Empty entries are left off the page. */
+  var EMAIL = 'ryanredick408@gmail.com';
+  var INSTAGRAM = 'ryanredick';
+  var LISTEN = [                     // { label, where, href }: SoundCloud and mixes
+    { label: 'soundcloud.com/rian408', where: 'SoundCloud', href: 'https://soundcloud.com/rian408' }
+  ];
+  var SETS = [                       // newest first; all real, from his SoundCloud
+    { t: 'Sector FM guest mix', w: 'Radio', d: 'Jul 2, 2025', href: 'https://soundcloud.com/rian408/sector-fm-guest-mix-ryan-07-02' },
+    { t: 'Bikkuri Sushi Lounge', w: 'Live mix', d: 'Jun 5, 2025', href: 'https://soundcloud.com/rian408/bikkuri-sushi-lounge-live-mix-0605' },
+    { t: 'AR Radio', w: 'Live mix', d: 'May 26, 2025', href: 'https://soundcloud.com/rian408/6c00e9e5-576e-44cc-a039-a9e74ee8413d' },
+    { t: 'Fader submission', w: 'Mix', d: '', href: 'https://soundcloud.com/rian408/fader-submission' },
+    { t: 'Rian live mix', w: 'Live mix', d: '', href: 'https://soundcloud.com/rian408/rian-live-mix' }
+  ];
+  // when: 'Mar 2025' etc. Leave '' until Ryan gives the date; it simply isn't shown.
+  var GIGS = [
+    { name: 'Below Grūnd', where: 'Brooklyn', when: '' },
+    { name: 'Der Letzte Techno Night', where: 'EKO, Brooklyn', when: '' },
+    { name: 'Synctika 001', where: 'Brooklyn · b2b with Abeille', when: '' },
+    { name: 'Şahika', where: 'Istanbul · b2b with Abeille', when: '' },
+    { name: 'Night Moves', where: 'Orlando · 14-hour techno rave', when: '' },
+    { name: 'Project Pluto', where: 'Florida', when: '' }
+  ];
+  // Real flyers from nights he played: { src: 'assets/flyer-x.jpg', alt: '...' }. Shown in Played once there are any.
+  var FLYERS = [];
+  var PLAYED = ['Sector FM', 'AR Radio', 'Below Grūnd', 'Der Letzte Techno Night', 'Synctika 001', 'Şahika Istanbul', 'Night Moves Orlando', 'Project Pluto'];
+
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var small = matchMedia('(max-width: 860px)').matches;
+  var portrait = matchMedia('(max-width: 860px) and (orientation: portrait)').matches;
+  var clamp = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
+  var ease = function (x) { x = clamp(x); return x * x * (3 - 2 * x); };
+
+  /* ------------------------------------------------------------- ticker -- */
+  var run = $('tickerRun');
+  run.innerHTML = PLAYED.map(function (p) { return '<span><i aria-hidden="true"></i><b>Played</b> ' + p + '</span>'; }).join('');
+  var twin = run.cloneNode(true); twin.setAttribute('aria-hidden', 'true'); twin.removeAttribute('id'); run.parentNode.appendChild(twin);
+
+  $('gigs').innerHTML = GIGS.map(function (g) {
+    return '<li><span class="g-name">' + g.name + '</span><span class="g-where">' + (g.when ? '<b class="g-when">' + g.when + '</b> ' : '') + g.where + '</span></li>';
+  }).join('');
+  if (FLYERS.length) {
+    var fl = document.createElement('ul'); fl.className = 'flyers';
+    fl.innerHTML = FLYERS.map(function (f) { return '<li><img src="' + f.src + '" alt="' + f.alt + '" loading="lazy" decoding="async"></li>'; }).join('');
+    document.querySelector('.stills-line').before(fl);
+  }
+
+  /* ------------------------------------------------------------ contact -- */
+  var ways = [
+    '<li><a href="mailto:' + EMAIL + '"><span class="k">Email</span><span class="v">' + EMAIL + '</span></a></li>',
+    '<li><a href="https://www.instagram.com/' + INSTAGRAM + '/" target="_blank" rel="noopener"><span class="k">Instagram</span><span class="v">@' + INSTAGRAM + '</span></a></li>'
+  ];
+  LISTEN.forEach(function (l) { ways.push('<li><a href="' + l.href + '" target="_blank" rel="noopener"><span class="k">' + l.where + '</span><span class="v">' + l.label + '</span></a></li>'); });
+  $('sets').innerHTML = SETS.map(function (x, i) {
+    return '<li><button type="button" class="set" data-i="' + i + '" aria-pressed="false">' +
+      '<span class="set__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="pl" d="M7 4.5v15l13-7.5z"/><g class="eq"><rect x="4" y="6" width="3.5" height="12"/><rect x="10.25" y="6" width="3.5" height="12"/><rect x="16.5" y="6" width="3.5" height="12"/></g></svg></span>' +
+      '<span class="t">' + x.t + '</span><span class="d">' + x.d + '</span><span class="w">' + x.w + '</span></button>' +
+      '<a class="set__out" href="' + x.href + '" target="_blank" rel="noopener">SoundCloud <span aria-hidden="true">↗</span></a></li>';
+  }).join('');
+  $('ways').innerHTML = ways.join('');
+
+  /* --------------------------------------------------------------- mount -- */
+  var api = ScrollCraft.mount(document);
+  var W = api.worlds[0];
+  function progress() { return clamp((scrollY - W.top) / Math.max(innerHeight, 1) / W.total); }
+  var HERO_END = 0.62 * W.segs[0].w / W.total;
+
+  /* ---------------------------------------------------- his sets, in place --
+     Tap a set and it plays here, through SoundCloud's own player (the one
+     line under the list). The page's own sound steps aside while it does.  */
+  var player = $('player'), widget = null, current = -1, scQueued = null;
+  var setBtns = Array.prototype.slice.call(document.querySelectorAll('.set'));
+  function markSet(i, playing) {
+    setBtns.forEach(function (x, j) {
+      x.setAttribute('aria-pressed', String(j === i));
+      x.classList.toggle('is-paused', j === i && !playing);
+    });
+  }
+  function scUrl(i) { return SETS[i].href; }
+  function scOpts() { return { auto_play: true, color: '#ff2d1a', visual: false, show_comments: false, show_user: false, show_reposts: false, hide_related: true, show_teaser: false }; }
+  function playSet(i) {
+    if (soundOn) setSound(false);
+    if (i === current && widget) { widget.toggle(); return; }
+    current = i; markSet(i, true);
+    if (widget) { widget.load(scUrl(i), scOpts()); return; }
+    player.hidden = false;
+    var q = Object.entries(scOpts()).map(function (kv) { return kv[0] + '=' + encodeURIComponent(kv[1]); }).join('&');
+    player.innerHTML = '<iframe title="SoundCloud player" allow="autoplay" src="https://w.soundcloud.com/player/?url=' + encodeURIComponent(scUrl(i)) + '&' + q + '"></iframe>';
+    var go = function () {
+      widget = SC.Widget(player.querySelector('iframe'));
+      widget.bind(SC.Widget.Events.PLAY, function () { if (soundOn) setSound(false); markSet(current, true); });
+      widget.bind(SC.Widget.Events.PAUSE, function () { markSet(current, false); });
+      widget.bind(SC.Widget.Events.FINISH, function () { markSet(current, false); });
+    };
+    if (window.SC && SC.Widget) go();
+    else {
+      var sc = document.createElement('script'); sc.src = 'https://w.soundcloud.com/player/api.js'; sc.onload = go;
+      document.head.appendChild(sc);
+    }
+  }
+  setBtns.forEach(function (x) { x.addEventListener('click', function () { playSet(+x.dataset.i); }); });
+
+  /* ------------------------------------------------------------ the door -- */
+  var hero = $('hero'), live = $('live'), door = $('door'), letters = $('doorLetters'), street = $('street'), haze = $('haze');
+  var ROOM_SRC = portrait ? 'assets/room-m.mp4' : 'assets/room.mp4';
+  live.src = ROOM_SRC;
+  if (!reduce) { var p0 = live.play(); if (p0 && p0.catch) p0.catch(function () {}); }
+
+  // Fit the name to the width (at scale 1), then aim the zoom at the R's stem.
+  function measure() {
+    var keep = door.style.transform; door.style.transform = 'none';
+    letters.style.fontSize = '100px';
+    var fit = 100 * (innerWidth * (portrait ? 0.8 : 0.86)) / letters.getBoundingClientRect().width;
+    letters.style.fontSize = fit.toFixed(1) + 'px';
+    var d = door.getBoundingClientRect();
+    var r = document.createRange(); r.setStart(letters.firstChild, 0); r.setEnd(letters.firstChild, 1);
+    var g = r.getBoundingClientRect();
+    door.style.transformOrigin = (g.left + g.width * 0.2 - d.left).toFixed(1) + 'px ' + (g.top + g.height * 0.5 - d.top).toFixed(1) + 'px';
+    door.style.transform = keep;
+  }
+
+  /* ------------------------------------------------------- the room, live --
+     The room plays in real time, not scrubbed. The engine fades the leg in
+     and out; this plays or pauses with it and keeps it on the audio.        */
+  var roomSeg = $('roomSeg');
+  var roomLive = document.createElement('video');
+  roomLive.muted = true; roomLive.loop = true; roomLive.playsInline = true; roomLive.preload = 'none';
+  roomLive.setAttribute('aria-hidden', 'true'); roomLive.className = 'seg-live';
+  roomLive.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2';
+  roomLive.src = ROOM_SRC;
+  roomSeg.appendChild(roomLive);
+  var roomOn = false;
+  function updateRoom() {
+    var on = parseFloat(roomSeg.style.opacity || '0') > 0.01;
+    if (on === roomOn) return;
+    roomOn = on;
+    if (on) {
+      if (soundOn) { try { roomLive.currentTime = aud.currentTime % (roomLive.duration || 51); } catch (e) {} }
+      if (!reduce) { var p = roomLive.play(); if (p && p.catch) p.catch(function () {}); }
+    } else roomLive.pause();
+  }
+
+  /* -------------------------------------------------------------- sound --
+     One set, one graph: low-pass (the wall) → high-pass (the build) → gain,
+     with an analyser on the end that reads the kick for his name. Web Audio
+     because iOS ignores element.volume.                                    */
+  var aud = $('aud'), soundBtn = $('sound'), soundBar = $('soundBar');
+  var actx = null, lp, hp, gain, an, bins, soundOn = false;
+  function graph() {
+    if (actx) return;
+    var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    try {
+      actx = new AC();
+      var src = actx.createMediaElementSource(aud);
+      lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 0.9; lp.frequency.value = 200;
+      hp = actx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 18; hp.Q.value = 1.4;
+      gain = actx.createGain();
+      an = actx.createAnalyser(); an.fftSize = 512; an.smoothingTimeConstant = 0.55; bins = new Uint8Array(an.frequencyBinCount);
+      src.connect(lp).connect(hp).connect(gain).connect(an).connect(actx.destination);
+    } catch (e) { actx = null; }
+  }
+  function setSound(on) {
+    soundOn = on;
+    if (on) {
+      if (widget) widget.pause();
+      graph(); if (actx && actx.state === 'suspended') actx.resume();
+      if (aud.paused && aud.currentTime === 0) { try { aud.currentTime = live.currentTime || 0; } catch (e) {} }
+      var p = aud.play(); if (p && p.catch) p.catch(function () {});
+    } else aud.pause();
+    [soundBtn, soundBar].forEach(function (b) { b.setAttribute('aria-pressed', String(on)); });
+    soundBar.setAttribute('aria-label', on ? 'Sound off' : 'Sound on');
+    $('soundLabel').textContent = on ? 'Sound off' : 'Sound on';
+    $('soundWave').setAttribute('opacity', on ? '1' : '0.35');
+    soundBar.querySelector('.wave').setAttribute('opacity', on ? '1' : '0.35');
+  }
+  soundBtn.addEventListener('click', function () { setSound(!soundOn); });
+  soundBar.addEventListener('click', function () { setSound(!soundOn); });
+  // picture follows the sound (same clip)
+  setInterval(function () {
+    if (!soundOn || aud.paused) return;
+    [live, roomLive].forEach(function (v) {
+      if (!v.paused && v.duration && Math.abs(v.currentTime - aud.currentTime) > 0.3) { try { v.currentTime = aud.currentTime % v.duration; } catch (e) {} }
+    });
+  }, 1000);
+
+  /* ------------------------------------------------------- the whiteout --
+     Hold: the room blows out to white, the bass drains away, the name
+     stretches. Let go: the drop.                                          */
+  var holdBtn = $('hold'), roomCopy = $('roomCopy'), white = $('white'), roomName = $('roomName');
+  var holding = false, b = 0, punch = 0, kick = 0, floorE = 0;
+  var BUILD_S = reduce ? 3.2 : 2.4;
+  function startHold(e) {
+    if (e) e.preventDefault();
+    if (holding) return;
+    holding = true;
+    if (!soundOn) setSound(true);          // the press is a gesture: the room gets its sound
+    document.body.classList.add('is-building');
+    $('holdLabel').textContent = 'Building';
+  }
+  function endHold() {
+    if (!holding) return;
+    holding = false;
+    if (b > 0.35) punch = 1;
+    $('holdLabel').innerHTML = 'Hold<br>to build';
+  }
+  holdBtn.addEventListener('pointerdown', function (e) { if (holdBtn.setPointerCapture) holdBtn.setPointerCapture(e.pointerId); startHold(e); });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (t) { holdBtn.addEventListener(t, endHold); });
+  holdBtn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  holdBtn.addEventListener('keydown', function (e) { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) startHold(e); });
+  holdBtn.addEventListener('keyup', function (e) { if (e.key === ' ' || e.key === 'Enter') endHold(); });
+  holdBtn.addEventListener('click', function (e) { e.preventDefault(); });
+  addEventListener('blur', endHold);
+
+  /* ---------------------------------------------------------- the fader -- */
+  var knob = $('knob'), faderList = $('faderList'), fader = $('fader'), bar = $('bar');
+  var faderBtns = Array.prototype.slice.call(document.querySelectorAll('.fader button'));
+  var stops = [];
+  function measureStops() {
+    var r0 = faderList.getBoundingClientRect();
+    stops = faderBtns.map(function (x) { var r = x.getBoundingClientRect(); return r.left + r.width / 2 - r0.left; });
+  }
+  function goTo(i) {
+    var s = W.segs[i];
+    var y = W.top + (i === 0 ? s.w * 0.62 : (s.c0 + (i === W.segs.length - 1 ? s.w : s.w * 0.45))) * innerHeight;
+    scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  document.querySelectorAll('[data-go]').forEach(function (x) {
+    x.addEventListener('click', function (e) { e.preventDefault(); goTo(+x.getAttribute('data-go')); });
+  });
+  document.querySelector('.mark').addEventListener('click', function (e) { e.preventDefault(); scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+  addEventListener('sc:waypoint', function (e) { faderBtns.forEach(function (x, i) { x.setAttribute('aria-current', String(i === e.detail.index)); }); });
+  faderBtns[0].setAttribute('aria-current', 'true');
+
+  /* --------------------------------------------------------------- loop --- */
+  var lastT = 0, cueEl = $('cue');
+  function frame(t) {
+    var dt = Math.min(0.05, (t - (lastT || t)) / 1000); lastT = t;
+    var pr = progress();
+    var inP = ease(pr / HERO_END);                          // 0 at the door → 1 through the R
+
+    // the door
+    door.style.transform = reduce ? 'none' : 'scale(' + Math.pow(70, ease(clamp(pr / (HERO_END * 0.8)))).toFixed(3) + ')';
+    haze.style.opacity = (0.42 * (1 - clamp(inP / 0.5))).toFixed(3);
+    street.style.opacity = (1 - clamp(pr / (HERO_END * 0.25))).toFixed(3);
+    live.style.filter = 'grayscale(' + (1 - inP).toFixed(3) + ')';
+    var heroOp = 1 - clamp((pr - HERO_END * 0.8) / (HERO_END * 0.2));
+    hero.style.opacity = heroOp.toFixed(3);
+    hero.style.visibility = heroOp > 0.002 ? 'visible' : 'hidden';
+    soundBtn.tabIndex = heroOp > 0.5 ? 0 : -1;
+    if (heroOp < 0.002) { if (!live.paused) live.pause(); }
+    else if (live.paused && !reduce) { var p = live.play(); if (p && p.catch) p.catch(function () {}); }
+    updateRoom();
+    cueEl.classList.toggle('is-gone', scrollY > 24);
+
+    // build / release (only while the room is up)
+    var roomUp = parseFloat(roomCopy.style.opacity || '0') > 0.5;
+    if (!roomUp && holding) endHold();
+    if (holding) b = Math.min(1, b + dt / BUILD_S);
+    else b = Math.max(0, b - dt * (b > 0.02 ? 6 : 1));
+    punch = Math.max(0, punch - dt * 2.2);
+    document.body.classList.toggle('is-full', holding && b >= 1);
+    if (!holding && b === 0) document.body.classList.remove('is-building');
+    var bb = Math.pow(b, 1.7);
+    roomCopy.style.setProperty('--b', b.toFixed(3));
+    white.style.opacity = bb.toFixed(3);
+    roomLive.style.filter = b > 0 ? 'brightness(' + (1 + bb * 2.4).toFixed(2) + ') contrast(' + (1 - bb * 0.35).toFixed(2) + ')' : '';
+
+    // sound: the wall opens as you go through the door; the build pulls the bass out
+    if (actx) {
+      var now = actx.currentTime;
+      lp.frequency.setTargetAtTime(200 * Math.pow(20000 / 200, inP), now, 0.05);
+      hp.frequency.setTargetAtTime(b > 0.02 ? 18 + Math.pow(b, 1.5) * 2400 : 18, now, holding ? 0.05 : 0.012);
+      gain.gain.setTargetAtTime((0.75 + inP * 0.25 + b * 0.15) * (pr > 0.88 ? 0.55 : 1), now, 0.08);
+      an.getByteFrequencyData(bins);
+      var low = (bins[1] + bins[2] + bins[3]) / 765;
+      floorE += (low - floorE) * 0.02;
+      var k = clamp((low - floorE) * 4);
+      kick += (k - kick) * (k > kick ? 0.6 : 0.15);
+    } else kick *= 0.9;
+    if (!reduce) {
+      roomName.style.setProperty('--kick', Math.max(kick * (1 - b), punch).toFixed(3));
+      roomName.style.setProperty('--w', (70 + b * (small ? 32 : 80)).toFixed(1));
+    }
+
+    // the lights come up at the end: ink goes dark
+    var light = pr > 0.84 || b > 0.45;
+    bar.classList.toggle('is-light', light);
+    fader.classList.toggle('is-light', light);
+
+    if (stops.length) {
+      var i = W.index || 0, lp2 = W.segs[i] ? W.segs[i].local : 0;
+      var a = stops[i], c = stops[Math.min(i + 1, stops.length - 1)];
+      knob.style.setProperty('--k', (i === stops.length - 1 ? a : a + (c - a) * lp2).toFixed(1));
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function onResize() { measure(); measureStops(); }
+  addEventListener('resize', onResize);
+  addEventListener('load', function () { dispatchEvent(new Event('resize')); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { dispatchEvent(new Event('resize')); });
+  onResize();
+  requestAnimationFrame(frame);
+
+  if (location.hash === '#listen' || location.hash === '#book') { var land = function () { goTo(4); }; addEventListener('load', function () { setTimeout(land, 60); }); }
+
+})();
+</script>
+</body>
+</html>
