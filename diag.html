@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Size check</title>
+<style>
+  body { margin: 0; padding: 24px; background: #0a0a0a; color: #f2f1ee; font: 16px/1.5 -apple-system, system-ui, sans-serif; }
+  h1 { font-size: 20px; margin: 0 0 16px; }
+  table { border-collapse: collapse; }
+  td { padding: 6px 16px 6px 0; border-bottom: 1px solid #333; }
+  td:first-child { color: #9c9a95; }
+  .ruler { margin-top: 24px; width: 300px; height: 24px; background: #ff2d1a; color: #fff; font-size: 12px; display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<h1>Ryan R site: size check</h1>
+<table id="t"></table>
+<div class="ruler">this red bar should be 300px wide</div>
+<script>
+function row(k, v) { return '<tr><td>' + k + '</td><td>' + v + '</td></tr>'; }
+function show() {
+  var vv = window.visualViewport || {};
+  document.getElementById('t').innerHTML =
+    row('Window width x height (CSS px)', innerWidth + ' x ' + innerHeight) +
+    row('Browser window outer width', outerWidth) +
+    row('Page zoom (outer / inner)', (outerWidth / innerWidth).toFixed(2)) +
+    row('Pinch magnification', vv.scale ? vv.scale.toFixed(2) : 'n/a') +
+    row('Screen density (devicePixelRatio)', devicePixelRatio) +
+    row('Screen size', screen.width + ' x ' + screen.height) +
+    row('Browser', navigator.userAgent.replace(/^Mozilla\/5.0 /, ''));
+}
+show(); addEventListener('resize', show); if (window.visualViewport) visualViewport.addEventListener('resize', show);
+</script>
+</body>
+</html>
