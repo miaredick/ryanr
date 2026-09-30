@@ -1037,11 +1037,24 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   function up(e) { if (moved > 6) suppress = performance.now() + 300; pts.delete(e.pointerId); if (pts.size < 2) pinch0 = 0; if (performance.now() - lastMove > 80 || reduce) vel.lon = vel.lat = 0; }
   area.addEventListener('pointerup', up); area.addEventListener('pointercancel', up);
   // trackpad pinch (ctrl+wheel) and ⌘-scroll zoom; a plain scroll is left to the page
-  cv.addEventListener('wheel', function (e) {
+  area.addEventListener('wheel', function (e) {
     if (!e.ctrlKey && !e.metaKey) return;
     e.preventDefault(); goal = null;
     view.z = Math.max(1, Math.min(14, view.z * Math.exp(-e.deltaY * 0.01))); dirty = true;
   }, { passive: false });
+  // Safari (Mac trackpad and iPhone) reports a pinch as its own gesture events,
+  // and zooms the whole page unless they are caught here. Over the globe, a pinch
+  // zooms the globe and nothing else.
+  var gz0 = 1;
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) {
+    area.addEventListener(t, function (e) {
+      e.preventDefault();
+      if (t === 'gesturestart') { gz0 = view.z; goal = null; }
+      else if (t === 'gesturechange' && !pinch0) { view.z = Math.max(1, Math.min(14, gz0 * e.scale)); dirty = true; }
+    }, { passive: false });
+  });
+  // iPhone: two fingers on the globe never reach the page
+  area.addEventListener('touchmove', function (e) { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
   cv.addEventListener('dblclick', function (e) {
     var b = cv.getBoundingClientRect(), r = W * 0.48 * view.z;
     var nx = (e.clientX - b.left - W / 2) / r, ny = (W / 2 - (e.clientY - b.top)) / r, rho2 = nx * nx + ny * ny;
