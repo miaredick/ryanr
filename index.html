@@ -146,12 +146,19 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .g-name { font: 800 clamp(1.15rem, 2vw, 1.7rem)/1.05 var(--sc-font-display); font-stretch: 75%; text-transform: uppercase; }
 .g-where { color: var(--sc-ink-soft); font-size: 0.92rem; }
 .listen-sc { margin-top: 22px; }
+/* an inline tag for a person: a small chip in the sentence, links out */
+.tag { display: inline-flex; align-items: center; gap: 0.3em; padding: 0.05em 0.5em 0.1em; margin: 0 0.1em; box-shadow: inset 0 0 0 1px rgb(242 241 238 / 0.45); color: var(--sc-ink); font-weight: 600; text-decoration: none; white-space: nowrap; transition: background-color 160ms var(--ease), color 160ms var(--ease), box-shadow 160ms var(--ease); }
+.tag span { font-size: 0.8em; color: var(--sc-accent); }
+@media (hover: hover) and (pointer: fine) { .tag:hover { background: var(--sc-accent); box-shadow: none; color: #fff; } .tag:hover span { color: #fff; } }
 .g-when { color: var(--sc-ink); font-weight: 700; margin-right: 0.4em; }
 .flyers { position: absolute; right: var(--sc-gutter); bottom: calc(86px + env(safe-area-inset-bottom)); list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; }
 .flyers img { width: 120px; height: auto; display: block; }
 .stills-poster { filter: grayscale(1) contrast(1.08) brightness(0.8); object-position: 45% 30%; }
 .stills-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / 0.78), transparent 45%); }
 .still-inset { position: absolute; right: var(--sc-gutter); top: calc(var(--ticker-h) + var(--bar-h) + 6vh); width: min(24vw, 340px); margin: 0; box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7); }
+.still-inset figcaption { margin-top: 10px; font: 700 0.7rem/1.4 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sc-ink-soft); text-shadow: 0 1px 4px rgb(0 0 0 / 0.8); }
+.still-inset figcaption a { color: var(--sc-ink); text-decoration: none; }
+.still-inset { pointer-events: auto; }
 .still-inset img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.05); }
 .stills-line { position: absolute; left: var(--sc-gutter); bottom: calc(86px + env(safe-area-inset-bottom)); max-width: 44rem; }
 .stills-line .big { max-width: 16ch; }
@@ -409,7 +416,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       <div class="block">
         <h2 class="big">For the people dancing.</h2>
         <p class="body">Ryan Redick plays as Ryan R: an Atlanta-raised, Brooklyn-based DJ rooted in the underground, blending hypnotic techno, hard groove, leftfield house, electro and trance into powerful, percussive sets.</p>
-        <p class="body soft">An up-and-coming name in the city&rsquo;s underground, he waits tables by day and lives for the nights behind the decks. DJing is how he met his wife, Abeille, and the two still play back to back. He plays because he loves it, and you can hear it.</p>
+        <p class="body soft">An up-and-coming name in the city&rsquo;s underground, he waits tables by day and lives for the nights behind the decks. DJing is how he met his wife, <a class="tag" href="https://abeillemusic.com/" target="_blank" rel="noopener">Abeille <span aria-hidden="true">↗</span></a>, and the two still play back to back. He plays because he loves it, and you can hear it.</p>
         <ul class="genres" aria-label="What he plays"><li>Hypnotic techno</li><li>Hard groove</li><li>Leftfield house</li><li>Electro</li><li>Trance</li></ul>
         <a class="btn listen-sc" href="https://soundcloud.com/rian408" target="_blank" rel="noopener">Listen on SoundCloud <span aria-hidden="true">→</span></a>
       </div>
@@ -429,10 +436,11 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       <div class="stills-scrim"></div>
       <figure class="still-inset">
         <img src="assets/ryan-photo-2.jpg" alt="Ryan R playing an outdoor daytime set under hanging disco balls, the crowd behind him" width="1110" height="1452" loading="lazy" decoding="async">
+        <figcaption>Photo: <a href="https://www.instagram.com/mysticfocusbykelly/" target="_blank" rel="noopener">@mysticfocusbykelly</a></figcaption>
       </figure>
       <div class="stills-line">
-        <p class="big">Basements at night. Backyards in the sun.</p>
-        <p class="stills-credit">Photos: EKO · @mysticfocusbykelly</p>
+        <p class="big">EKO, Brooklyn.</p>
+        <p class="stills-credit">Photo: EKO</p>
       </div>
     </div>
 
