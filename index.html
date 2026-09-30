@@ -161,7 +161,8 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .still-inset { pointer-events: auto; }
 .still-inset img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.05); }
 .stills-line { position: absolute; left: var(--sc-gutter); bottom: calc(86px + env(safe-area-inset-bottom)); max-width: 44rem; }
-.stills-line .big { max-width: 16ch; }
+.stills-place { margin: 0; font: 800 clamp(1.1rem, 1.6vw, 1.5rem)/1.1 var(--sc-font-display); font-stretch: 90%; letter-spacing: 0.01em; text-transform: uppercase; color: rgb(242 241 238 / 0.9); }
+.stills-line .stills-credit { margin-top: 8px; }
 .stills-credit { margin: 14px 0 0; font: 700 0.7rem/1.4 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sc-ink-soft); }
 .radio-head { margin: 26px 0 0; }
 .radio-head + .for { margin-top: 10px; }
@@ -333,7 +334,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   .radio-head { margin-top: 10px; } .for { font-size: 1rem; }
   .side-scrim { background: rgb(0 0 0 / 0.72); }
   .still-inset { width: 20vw; top: calc(var(--ticker-h) + var(--bar-h) + 0.6rem); }
-  .stills-line { bottom: 16px; } .stills-line .big { max-width: 16ch; }
+  .stills-line { bottom: 16px; }
   .room { flex-direction: row; align-items: end; bottom: 16px; }
   .room__name { font-size: clamp(2.4rem, 9vw, 3.6rem); }
   .room__meta { font-size: 0.8rem; margin-top: 8px; }
@@ -439,7 +440,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
         <figcaption>Photo: <a href="https://www.instagram.com/mysticfocusbykelly/" target="_blank" rel="noopener">@mysticfocusbykelly</a></figcaption>
       </figure>
       <div class="stills-line">
-        <p class="big">EKO, Brooklyn.</p>
+        <p class="stills-place">EKO, Brooklyn</p>
         <p class="stills-credit">Photo: EKO</p>
       </div>
     </div>
