@@ -185,7 +185,7 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
   margin: 0; line-height: 0.82; text-transform: uppercase; white-space: nowrap; color: #fff;
   font-family: var(--sc-font-display); font-weight: 900; font-size: clamp(3.4rem, 12vw, 11.5rem); letter-spacing: -0.03em;
   font-stretch: 70%;
-  transform: translate3d(0, calc(var(--kick, 0) * -0.06em), 0) scale(calc(1 + var(--kick, 0) * 0.07)); transform-origin: 0 100%;
+  transform: translate3d(0, calc(var(--kick, 0) * -0.02em), 0) scale(calc(1 + var(--kick, 0) * 0.025)); transform-origin: 0 100%;
 }
 .room__name .rule { display: block; height: 0.06em; width: calc(1.2em + var(--kick, 0) * 1.2em); background: var(--sc-accent); margin-top: 0.08em; }
 .is-building .room__name { mix-blend-mode: difference; }
@@ -225,6 +225,12 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .ways .k { font: 700 0.7rem/1 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-soft); }
 .ways .v { font: 800 clamp(1.05rem, 1.8vw, 1.5rem)/1.1 var(--sc-font-display); font-stretch: 90%; overflow-wrap: anywhere; }
 @media (hover: hover) and (pointer: fine) { .ways a:hover .v { color: var(--sc-accent); } }
+.contact { position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); top: 50%; transform: translateY(-50%); max-width: 44rem; color: var(--paper-ink); }
+.contact h2 { margin: 0; font: 900 clamp(3rem, 8vw, 7rem)/0.86 var(--sc-font-display); font-stretch: 62%; text-transform: uppercase; letter-spacing: -0.015em; }
+.contact h2 .rule { display: block; width: 1.2em; height: 0.06em; background: var(--sc-accent); margin-top: 0.12em; }
+.contact .ways { margin-top: 32px; }
+.contact .ways .v { font-size: clamp(1.1rem, 2.4vw, 2rem); }
+@media (max-width: 860px) { .contact .ways a { flex-direction: column; align-items: flex-start; gap: 6px; } .contact h2 { font-size: clamp(2.8rem, 15vw, 4rem); } }
 .book__credit { margin: 22px 0 0; font: 500 0.68rem/1.6 var(--sc-font-text); letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper-soft); }
 .book__credit a { color: var(--paper-ink); }
 .sets { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--paper-line); }
@@ -315,6 +321,8 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
      with the black of the room above and below. Nothing is cropped. */
   .sc-world video, .sc-world .sc-world__poster, .seg-live, .hero video { object-fit: contain !important; background: #000 !important; }
   .sc-world .sc-world__poster { transform: none !important; }
+  /* the last page is plain paper: it always fills the screen */
+  [data-sc-world] > [data-sc-segment]:last-child .sc-world__poster { object-fit: cover !important; }
   /* the room sits high, his name and words under it */
   [data-sc-world] > [data-sc-segment]:nth-child(4) :is(video, .sc-world__poster) { object-position: 50% 16% !important; }
   /* the floor and the lasers sit low, under the words */
@@ -394,7 +402,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
     <button class="btn btn--ghost snd" id="soundBar" type="button" aria-pressed="false" aria-label="Sound on">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path class="wave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" opacity="0.35"/></svg>
     </button>
-    <a class="btn" href="#listen" data-go="4">Listen</a>
+    <a class="btn" href="#contact" data-go="4">Contact me</a>
   </div>
 </header>
 <audio id="aud" src="assets/room-audio.m4a" preload="none" loop></audio>
@@ -417,7 +425,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       <img class="sc-world__poster" src="assets/room.jpg" alt="" decoding="async">
       <!-- No scrub clip on purpose: his set plays in real time here (added by the page). -->
     </div>
-    <div data-sc-segment data-sc-w="1.1" data-sc-waypoint="Listen">
+    <div data-sc-segment data-sc-w="1.1" data-sc-waypoint="Contact">
       <img class="sc-world__poster" src="assets/paper.jpg" alt="" decoding="async">
     </div>
   </div>
@@ -491,18 +499,11 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       </div>
     </div>
 
-    <div class="fill" data-sc-copy data-sc-window="0.845 1 0.3 0" id="listen">
-      <div class="book">
-        <div>
-          <h2>Sets &amp;<br>mixes.<span class="rule"></span></h2>
-          <p class="lede">Radio guest mixes and live recordings. Tap one to play it here.</p>
-          <ul class="ways" id="ways"></ul>
-          <p class="book__credit">Photographs and footage used with thanks. Also playing: <a href="https://abeillemusic.com/">Abeille</a></p>
-        </div>
-        <div class="sets-wrap">
-          <ul class="sets" id="sets" aria-label="Sets and mixes"></ul>
-          <div class="player" id="player" hidden></div>
-        </div>
+    <div class="fill" data-sc-copy data-sc-window="0.845 1 0.3 0" id="contact">
+      <div class="contact">
+        <h2>Contact me.<span class="rule"></span></h2>
+        <ul class="ways" id="ways"></ul>
+        <p class="book__credit">Photographs and footage used with thanks. Also playing: <a href="https://abeillemusic.com/">Abeille</a></p>
       </div>
     </div>
   </div>
@@ -516,7 +517,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
     <li><button type="button" data-go="1"><span>Played</span></button></li>
     <li><button type="button" data-go="2"><span>Stills</span></button></li>
     <li><button type="button" data-go="3"><span>The room</span></button></li>
-    <li><button type="button" data-go="4"><span>Listen</span></button></li>
+    <li><button type="button" data-go="4"><span>Contact</span></button></li>
   </ol>
   <div class="fader__knob" id="knob"></div>
 </nav>
@@ -585,13 +586,6 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
     '<li><a href="mailto:' + EMAIL + '"><span class="k">Email</span><span class="v">' + EMAIL + '</span></a></li>',
     '<li><a href="https://www.instagram.com/' + INSTAGRAM + '/" target="_blank" rel="noopener"><span class="k">Instagram</span><span class="v">@' + INSTAGRAM + '</span></a></li>'
   ];
-  LISTEN.forEach(function (l) { ways.push('<li><a href="' + l.href + '" target="_blank" rel="noopener"><span class="k">' + l.where + '</span><span class="v">' + l.label + '</span></a></li>'); });
-  $('sets').innerHTML = SETS.map(function (x, i) {
-    return '<li><button type="button" class="set" data-i="' + i + '" aria-pressed="false">' +
-      '<span class="set__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="pl" d="M7 4.5v15l13-7.5z"/><g class="eq"><rect x="4" y="6" width="3.5" height="12"/><rect x="10.25" y="6" width="3.5" height="12"/><rect x="16.5" y="6" width="3.5" height="12"/></g></svg></span>' +
-      '<span class="t">' + x.t + '</span><span class="d">' + x.d + '</span><span class="w">' + x.w + '</span></button>' +
-      '<a class="set__out" href="' + x.href + '" target="_blank" rel="noopener">SoundCloud <span aria-hidden="true">↗</span></a></li>';
-  }).join('');
   $('ways').innerHTML = ways.join('');
 
   /* --------------------------------------------------------------- mount -- */
@@ -599,41 +593,6 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   var W = api.worlds[0];
   function progress() { return clamp((scrollY - W.top) / Math.max(innerHeight, 1) / W.total); }
   var HERO_END = 0.62 * W.segs[0].w / W.total;
-
-  /* ---------------------------------------------------- his sets, in place --
-     Tap a set and it plays here, through SoundCloud's own player (the one
-     line under the list). The page's own sound steps aside while it does.  */
-  var player = $('player'), widget = null, current = -1, scQueued = null;
-  var setBtns = Array.prototype.slice.call(document.querySelectorAll('.set'));
-  function markSet(i, playing) {
-    setBtns.forEach(function (x, j) {
-      x.setAttribute('aria-pressed', String(j === i));
-      x.classList.toggle('is-paused', j === i && !playing);
-    });
-  }
-  function scUrl(i) { return SETS[i].href; }
-  function scOpts() { return { auto_play: true, color: '#ff2d1a', visual: false, show_comments: false, show_user: false, show_reposts: false, hide_related: true, show_teaser: false }; }
-  function playSet(i) {
-    if (soundOn) setSound(false);
-    if (i === current && widget) { widget.toggle(); return; }
-    current = i; markSet(i, true);
-    if (widget) { widget.load(scUrl(i), scOpts()); return; }
-    player.hidden = false;
-    var q = Object.entries(scOpts()).map(function (kv) { return kv[0] + '=' + encodeURIComponent(kv[1]); }).join('&');
-    player.innerHTML = '<iframe title="SoundCloud player" allow="autoplay" src="https://w.soundcloud.com/player/?url=' + encodeURIComponent(scUrl(i)) + '&' + q + '"></iframe>';
-    var go = function () {
-      widget = SC.Widget(player.querySelector('iframe'));
-      widget.bind(SC.Widget.Events.PLAY, function () { if (soundOn) setSound(false); markSet(current, true); });
-      widget.bind(SC.Widget.Events.PAUSE, function () { markSet(current, false); });
-      widget.bind(SC.Widget.Events.FINISH, function () { markSet(current, false); });
-    };
-    if (window.SC && SC.Widget) go();
-    else {
-      var sc = document.createElement('script'); sc.src = 'https://w.soundcloud.com/player/api.js'; sc.onload = go;
-      document.head.appendChild(sc);
-    }
-  }
-  setBtns.forEach(function (x) { x.addEventListener('click', function () { playSet(+x.dataset.i); }); });
 
   /* ------------------------------------------------------------ the door -- */
   var hero = $('hero'), live = $('live'), door = $('door'), letters = $('doorLetters'), street = $('street'), haze = $('haze');
@@ -697,7 +656,6 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   function setSound(on) {
     soundOn = on;
     if (on) {
-      if (widget) widget.pause();
       graph(); if (actx && actx.state === 'suspended') actx.resume();
       if (aud.paused && aud.currentTime === 0) { try { aud.currentTime = live.currentTime || 0; } catch (e) {} }
       var p = aud.play(); if (p && p.catch) p.catch(function () {});
@@ -852,7 +810,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   onResize();
   requestAnimationFrame(frame);
 
-  if (location.hash === '#listen' || location.hash === '#book') { var land = function () { goTo(4); }; addEventListener('load', function () { setTimeout(land, 60); }); }
+  if (location.hash === '#contact' || location.hash === '#listen' || location.hash === '#book') { var land = function () { goTo(4); }; addEventListener('load', function () { setTimeout(land, 60); }); }
 
 })();
 </script>
