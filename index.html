@@ -739,6 +739,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
      Hold: the room blows out to white, the bass drains away, the name
      stretches. Let go: the drop.                                          */
   var holdBtn = $('hold'), roomCopy = $('roomCopy'), white = $('white'), roomName = $('roomName');
+  var lastKick = '', lastStretch = '';
   var holding = false, b = 0, punch = 0, kick = 0, eAvg = 0, lastHit = 0, beatT = 0;
   var BEAT = 60 / 128;                     // no sound: it still moves, at a techno tempo
   var BUILD_S = reduce ? 3.2 : 2.4;
@@ -840,9 +841,11 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
     }
     if (hit) { lastHit = t; kick = 1; }
     else kick = Math.max(0, kick - dt * 5.5);
-    if (!reduce) {
-      roomName.style.setProperty('--kick', Math.max(Math.pow(kick, 2) * (1 - b), punch).toFixed(3));
-      roomName.style.fontStretch = (70 + b * (small ? 32 : 80)).toFixed(1) + '%';
+    if (!reduce && parseFloat(roomCopy.style.opacity || '0') > 0.01) {
+      var kv = Math.max(Math.pow(kick, 2) * (1 - b), punch).toFixed(2);
+      if (kv !== lastKick) { roomName.style.setProperty('--kick', kv); lastKick = kv; }
+      var fs = (70 + b * (small ? 32 : 80)).toFixed(0) + '%';
+      if (fs !== lastStretch) { roomName.style.fontStretch = fs; lastStretch = fs; }
     }
 
     mapEl.classList.toggle('is-on', pr > 0.9);
@@ -914,9 +917,8 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
     img.onload = function () {
       var c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
       var x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(img, 0, 0);
-      var d = x.getImageData(0, 0, c.width, c.height).data;
-      MW = c.width; MH = c.height; mask = new Uint8Array(MW * MH);
-      for (var i = 0, n = MW * MH; i < n; i++) mask[i] = d[i * 4];
+      mask = x.getImageData(0, 0, c.width, c.height).data;   // RGBA; land is where R >= 128
+      MW = c.width; MH = c.height;
       dirty = true;
     };
     img.src = 'assets/land-mask.png';
@@ -959,7 +961,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
           var lat = Math.asin(cosc * sp0 + ny * cp0) / RAD;
           var lon = view.lon + Math.atan2(nx, cosc * cp0 - ny * sp0) / RAD;
           var mx = ((((lon + 180) % 360) + 360) % 360) / 360 * MW | 0, my = (90 - lat) / 180 * MH | 0;
-          if (mask[my * MW + mx] < 128) continue;
+          if (mask[(my * MW + mx) << 2] < 128) continue;
           (inFlorida(((lon + 540) % 360) - 180, lat) ? fla : land).rect(x - D / 2, y - D / 2, D, D);
         }
       }
@@ -1070,11 +1072,14 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
         view.lon = wrap(view.lon + vel.lon); view.lat = Math.max(-80, Math.min(80, view.lat + vel.lat));
         vel.lon *= 0.86; vel.lat *= 0.86; dirty = true;
       }
-      if (dirty || !reduce) { draw(now); dirty = false; }
+      if (!reduce && now - (frame.ping || 0) > 33) { frame.ping = now; dirty = true; }
+      if (dirty) { draw(now); dirty = false; }
     }
     requestAnimationFrame(frame);
   }
-  if (document.readyState === 'complete') size(); else addEventListener('load', size);
+  // unpack the land map while nothing is happening, long before anyone scrolls to it
+  function idle() { (window.requestIdleCallback || function (f) { setTimeout(f, 1200); })(loadMask, { timeout: 5000 }); }
+  if (document.readyState === 'complete') { size(); idle(); } else addEventListener('load', function () { size(); idle(); });
   requestAnimationFrame(frame);
 })();
 </script>
