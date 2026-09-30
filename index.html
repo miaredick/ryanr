@@ -185,12 +185,12 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
   margin: 0; line-height: 0.82; text-transform: uppercase; white-space: nowrap; color: #fff;
   font-family: var(--sc-font-display); font-weight: 900; font-size: clamp(3.4rem, 12vw, 11.5rem); letter-spacing: -0.03em;
   font-stretch: 70%;
-  transform: scale(calc(1 + var(--kick, 0) * 0.035)); transform-origin: 0 100%;
+  transform: translate3d(0, calc(var(--kick, 0) * -0.06em), 0) scale(calc(1 + var(--kick, 0) * 0.07)); transform-origin: 0 100%;
 }
 .room__name .rule { display: block; height: 0.06em; width: calc(1.2em + var(--kick, 0) * 1.2em); background: var(--sc-accent); margin-top: 0.08em; }
 .is-building .room__name { mix-blend-mode: difference; }
 .is-building .room__name .rule { opacity: 0; }
-.room__meta { margin: 14px 0 0; line-height: 1.45; max-width: 40ch; }
+.room__meta { margin: 16px 0 0; line-height: 1.5; max-width: 46ch; color: rgb(242 241 238 / 0.88); }
 .room__meta small { display: block; color: var(--sc-ink-soft); font: 700 0.7rem/1.5 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 6px; }
 .is-building .room__meta { opacity: calc(1 - var(--b, 0) * 1.4); }
 .hold {
@@ -315,6 +315,8 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
      with the black of the room above and below. Nothing is cropped. */
   .sc-world video, .sc-world .sc-world__poster, .seg-live, .hero video { object-fit: contain !important; background: #000 !important; }
   .sc-world .sc-world__poster { transform: none !important; }
+  /* the room sits high, his name and words under it */
+  [data-sc-world] > [data-sc-segment]:nth-child(4) :is(video, .sc-world__poster) { object-position: 50% 16% !important; }
   /* the floor and the lasers sit low, under the words */
   [data-sc-world] > [data-sc-segment]:nth-child(-n+2) :is(video, .sc-world__poster) { object-position: 50% 84% !important; }
   .side-scrim { background: linear-gradient(to bottom, rgb(0 0 0 / 0.85) 0%, rgb(0 0 0 / 0.6) 50%, transparent 68%); }
@@ -443,7 +445,6 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       <div class="block">
         <h2 class="big">For the people dancing.</h2>
         <p class="body">Ryan Redick plays as Ryan R: an Atlanta-raised, Brooklyn-based DJ rooted in the underground, blending hypnotic techno, hard groove, leftfield house, electro and trance into powerful, percussive sets.</p>
-        <p class="body soft">An up-and-coming name in the city&rsquo;s underground, he waits tables by day and lives for the nights behind the decks. DJing is how he met his wife, <a class="tag" href="https://abeillemusic.com/" target="_blank" rel="noopener">Abeille <span aria-hidden="true">↗</span></a>, and the two still play back to back. He plays because he loves it, and you can hear it.</p>
         <ul class="sc-links" id="scLinks" aria-label="His sets on SoundCloud"></ul>
         <a class="sc-all" href="https://soundcloud.com/rian408" target="_blank" rel="noopener">All on SoundCloud <span aria-hidden="true">↗</span></a>
       </div>
@@ -480,7 +481,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       <div class="room">
         <div>
           <h2 class="room__name" id="roomName">Ryan R<span class="rule"></span></h2>
-          <p class="room__meta">Ryan Redick. Hypnotic techno, hard groove, leftfield house, electro, trance.<small>Atlanta-raised · Brooklyn-based</small></p>
+          <p class="room__meta">An up-and-coming name in the city&rsquo;s underground, he waits tables by day and lives for the nights behind the decks. DJing is how he met his wife, <a class="tag" href="https://abeillemusic.com/" target="_blank" rel="noopener">Abeille <span aria-hidden="true">↗</span></a>, and the two still play back to back. He plays because he loves it, and you can hear it.<small>Atlanta-raised · Brooklyn-based</small></p>
         </div>
         <button class="hold" id="hold" type="button" aria-describedby="holdHelp">
           <svg viewBox="0 0 128 128" aria-hidden="true"><circle class="track" cx="64" cy="64" r="62"/><circle class="ring" cx="64" cy="64" r="62"/></svg>
@@ -721,7 +722,8 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
      Hold: the room blows out to white, the bass drains away, the name
      stretches. Let go: the drop.                                          */
   var holdBtn = $('hold'), roomCopy = $('roomCopy'), white = $('white'), roomName = $('roomName');
-  var holding = false, b = 0, punch = 0, kick = 0, floorE = 0;
+  var holding = false, b = 0, punch = 0, kick = 0, eAvg = 0, lastHit = 0, beatT = 0;
+  var BEAT = 60 / 128;                     // no sound: it still moves, at a techno tempo
   var BUILD_S = reduce ? 3.2 : 2.4;
   function startHold(e) {
     if (e) e.preventDefault();
@@ -805,14 +807,24 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       lp.frequency.setTargetAtTime(200 * Math.pow(20000 / 200, inP), now, 0.05);
       hp.frequency.setTargetAtTime(b > 0.02 ? 18 + Math.pow(b, 1.5) * 2400 : 18, now, holding ? 0.05 : 0.012);
       gain.gain.setTargetAtTime((0.75 + inP * 0.25 + b * 0.15) * (pr > 0.88 ? 0.55 : 1), now, 0.08);
+    }
+    // The name bounces on the kick. With his set playing, a kick is a jump in
+    // the low end over its recent average; with the sound off, it keeps time.
+    var hit = false;
+    if (actx && soundOn && !aud.paused) {
       an.getByteFrequencyData(bins);
-      var low = (bins[1] + bins[2] + bins[3]) / 765;
-      floorE += (low - floorE) * 0.02;
-      var k = clamp((low - floorE) * 4);
-      kick += (k - kick) * (k > kick ? 0.6 : 0.15);
-    } else kick *= 0.9;
+      var e = (bins[1] + bins[2] + bins[3] + bins[4]) / 1020;
+      var onset = e - eAvg;
+      eAvg += (e - eAvg) * 0.12;
+      if (onset > 0.035 && t - lastHit > 280) hit = true;
+    } else {
+      beatT += dt;
+      if (beatT >= BEAT) { beatT -= BEAT; hit = true; }
+    }
+    if (hit) { lastHit = t; kick = 1; }
+    else kick = Math.max(0, kick - dt * 5.5);
     if (!reduce) {
-      roomName.style.setProperty('--kick', Math.max(kick * (1 - b), punch).toFixed(3));
+      roomName.style.setProperty('--kick', Math.max(Math.pow(kick, 2) * (1 - b), punch).toFixed(3));
       roomName.style.fontStretch = (70 + b * (small ? 32 : 80)).toFixed(1) + '%';
     }
 
