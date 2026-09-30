@@ -146,6 +146,15 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .g-name { font: 800 clamp(1.15rem, 2vw, 1.7rem)/1.05 var(--sc-font-display); font-stretch: 75%; text-transform: uppercase; }
 .g-where { color: var(--sc-ink-soft); font-size: 0.92rem; }
 .listen-sc { margin-top: 22px; }
+/* his sets, right under the bio: one line each, out to SoundCloud */
+.sc-links { list-style: none; margin: 22px 0 0; padding: 0; border-top: 1px solid var(--line); max-width: 30rem; }
+.sc-links a { display: flex; align-items: baseline; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+.sc-links .t { flex: 1; min-width: 0; font: 800 clamp(0.95rem, 1.4vw, 1.15rem)/1.15 var(--sc-font-display); font-stretch: 80%; text-transform: uppercase; }
+.sc-links .d { font: 700 0.66rem/1 var(--sc-font-text); letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-ink-soft); white-space: nowrap; }
+.sc-links .o { color: var(--sc-accent); font-size: 0.8em; }
+@media (hover: hover) and (pointer: fine) { .sc-links a:hover .t { color: var(--sc-accent); } }
+.sc-all { display: inline-flex; gap: 0.4em; margin-top: 14px; font: 700 0.72rem/1 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sc-ink); text-decoration: none; padding: 8px 0; }
+.sc-all span { color: var(--sc-accent); }
 /* an inline tag for a person: a small chip in the sentence, links out */
 .tag { color: inherit; text-decoration: underline; text-decoration-color: rgb(242 241 238 / 0.35); text-decoration-thickness: 1px; text-underline-offset: 0.22em; white-space: nowrap; transition: color 160ms var(--ease), text-decoration-color 160ms var(--ease); }
 .tag span { font-size: 0.7em; color: var(--sc-accent); margin-left: 0.15em; }
@@ -309,6 +318,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   /* the floor and the lasers sit low, under the words */
   [data-sc-world] > [data-sc-segment]:nth-child(-n+2) :is(video, .sc-world__poster) { object-position: 50% 84% !important; }
   .side-scrim { background: linear-gradient(to bottom, rgb(0 0 0 / 0.85) 0%, rgb(0 0 0 / 0.6) 50%, transparent 68%); }
+  .floor-scrim { background: linear-gradient(to bottom, rgb(0 0 0 / 0.9) 0%, rgb(0 0 0 / 0.84) 72%, rgb(0 0 0 / 0.3) 86%, transparent 94%); }
   .door__name { translate: 0 0; }
   .still-inset { width: 34vw; }
   .still-inset figcaption { font-size: 0.6rem; letter-spacing: 0.08em; overflow-wrap: anywhere; }
@@ -323,8 +333,8 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
 @media (max-width: 860px) and (orientation: portrait) and (max-height: 720px) {
   .big { font-size: clamp(1.9rem, 10vw, 2.4rem); }
   .block p.body { font-size: 0.8rem; line-height: 1.5; margin-top: 10px; }
-  .genres { margin-top: 12px; } .genres li { padding: 5px 8px; font-size: 0.7rem; }
-  .listen-sc { margin-top: 12px; height: 38px; }
+  .sc-links { margin-top: 12px; } .sc-links a { padding: 6px 0; } .sc-links .t { font-size: 0.85rem; }
+  .sc-all { margin-top: 6px; }
   .gigs li { padding: 6px 0; } .g-name { font-size: 1rem; } .g-where { font-size: 0.8rem; }
 }
 /* Phones held sideways: very little height. Slimmer chrome, no slider,
@@ -343,8 +353,8 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   .block .big, .block .eyebrow { column-span: all; }
   .block p.body { font-size: 0.8rem; line-height: 1.5; margin-top: 8px; }
   .block p.body:first-of-type { margin-top: 12px; }
-  .genres { margin-top: 10px; } .genres li { padding: 5px 8px; font-size: 0.7rem; }
-  .listen-sc { margin-top: 10px; height: 36px; }
+  .sc-links { margin-top: 8px; break-inside: avoid; } .sc-links a { padding: 4px 0; } .sc-links .t { font-size: 0.8rem; }
+  .sc-all { margin-top: 4px; padding: 4px 0; }
   .gigs { margin-top: 8px; } .gigs li { padding: 5px 0; break-inside: avoid; }
   .g-name { font-size: 1rem; } .g-where { font-size: 0.78rem; }
   .radio-head { margin-top: 10px; } .for { font-size: 1rem; }
@@ -429,13 +439,13 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   <div data-sc-world-copy>
 
     <div class="fill" data-sc-copy data-sc-window="0.087 0.195 0.22 0.16">
-      <div class="side-scrim"></div>
+      <div class="side-scrim floor-scrim"></div>
       <div class="block">
         <h2 class="big">For the people dancing.</h2>
         <p class="body">Ryan Redick plays as Ryan R: an Atlanta-raised, Brooklyn-based DJ rooted in the underground, blending hypnotic techno, hard groove, leftfield house, electro and trance into powerful, percussive sets.</p>
         <p class="body soft">An up-and-coming name in the city&rsquo;s underground, he waits tables by day and lives for the nights behind the decks. DJing is how he met his wife, <a class="tag" href="https://abeillemusic.com/" target="_blank" rel="noopener">Abeille <span aria-hidden="true">↗</span></a>, and the two still play back to back. He plays because he loves it, and you can hear it.</p>
-        <ul class="genres" aria-label="What he plays"><li>Hypnotic techno</li><li>Hard groove</li><li>Leftfield house</li><li>Electro</li><li>Trance</li></ul>
-        <a class="btn listen-sc" href="https://soundcloud.com/rian408" target="_blank" rel="noopener">Listen on SoundCloud <span aria-hidden="true">→</span></a>
+        <ul class="sc-links" id="scLinks" aria-label="His sets on SoundCloud"></ul>
+        <a class="sc-all" href="https://soundcloud.com/rian408" target="_blank" rel="noopener">All on SoundCloud <span aria-hidden="true">↗</span></a>
       </div>
     </div>
 
@@ -557,6 +567,9 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   run.innerHTML = PLAYED.map(function (p) { return '<span><i aria-hidden="true"></i><b>Played</b> ' + p + '</span>'; }).join('');
   var twin = run.cloneNode(true); twin.setAttribute('aria-hidden', 'true'); twin.removeAttribute('id'); run.parentNode.appendChild(twin);
 
+  $('scLinks').innerHTML = SETS.map(function (x) {
+    return '<li><a href="' + x.href + '" target="_blank" rel="noopener"><span class="t">' + x.t + '</span><span class="d">' + x.d.replace(/, \d{4}$/, '') + '</span><span class="o" aria-hidden="true">↗</span></a></li>';
+  }).join('');
   $('gigs').innerHTML = GIGS.map(function (g) {
     return '<li><span class="g-name">' + g.name + '</span><span class="g-where">' + (g.when ? '<b class="g-when">' + g.when + '</b> ' : '') + g.where + '</span></li>';
   }).join('');
