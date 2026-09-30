@@ -127,7 +127,7 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .cue__label { writing-mode: vertical-rl; font: 800 0.66rem/1 var(--sc-font-text); letter-spacing: 0.3em; text-transform: uppercase; color: var(--sc-ink); }
 .cue__line { position: relative; width: 1px; height: 72px; background: rgb(242 241 238 / 0.35); overflow: hidden; }
 .cue__line::after { content: ""; position: absolute; left: -1px; top: 0; width: 3px; height: 18px; background: var(--sc-accent); animation: cue 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
-@keyframes cue { from { transform: translateY(-18px); } to { transform: translateY(72px); } }
+@keyframes cue { from { transform: translateY(72px); } to { transform: translateY(-18px); } }
 .cue.is-gone { opacity: 0; }
 
 /* ---------------------------------------------------------------- copy --- */
