@@ -878,6 +878,14 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
 })();
 </script>
 <script>
+/* The page is one fixed stage, so Safari's pinch-magnify only ever breaks it
+   (the bar and ticker slide off and the scene is cropped). Pinches are caught
+   here; over the globe they zoom the globe. ⌘+ / ⌘− still resize the page. */
+['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) {
+  document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false });
+});
+</script>
+<script>
 /* ------------------------------------------------------------ the globe --
    Where he has played, on a globe you can spin and zoom. The land is a
    4096x2048 mask; every frame a fixed grid of dots is thrown onto the
