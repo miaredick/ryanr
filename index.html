@@ -132,7 +132,7 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 
 /* ---------------------------------------------------------------- copy --- */
 .fill { position: absolute; inset: 0; pointer-events: none !important; }
-.fill[style*="pointer-events: auto"] :is(a, button, input, select, textarea, label, form) { pointer-events: auto; }
+.fill[style*="pointer-events: auto"] :is(a, button, input, select, textarea, label, form, canvas) { pointer-events: auto; }
 .side-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(0 0 0 / 0.86), rgb(0 0 0 / 0.5) 42%, transparent 66%), linear-gradient(to top, rgb(0 0 0 / 0.6), transparent 35%); }
 .eyebrow { margin: 0 0 14px; font: 700 0.72rem/1.3 var(--sc-font-text); letter-spacing: 0.16em; text-transform: uppercase; color: var(--sc-accent); }
 .big { margin: 0; font: 900 clamp(2.4rem, 6vw, 5.6rem)/0.9 var(--sc-font-display); font-stretch: 62%; letter-spacing: -0.015em; text-transform: uppercase; text-wrap: balance; max-width: 13ch; }
@@ -229,8 +229,14 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 /* Where he has played: a dotted globe over the Atlantic, routes out of Brooklyn. */
 .map { position: absolute; margin: 0; right: var(--sc-gutter); top: calc(50% + (var(--ticker-h) + var(--bar-h)) / 2 - 20px); transform: translateY(-50%); width: min(40vw, calc(100svh - var(--ticker-h) - var(--bar-h) - 150px)); color: var(--paper-ink); }
 .map__globe { position: relative; }
-.map__globe img, .map__globe svg { display: block; width: 100%; height: auto; }
-.map__globe svg { position: absolute; inset: 0; overflow: visible; }
+.map__globe { overflow: hidden; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; }
+.map__globe:active { cursor: grabbing; }
+.map__globe canvas { display: block; width: 100%; aspect-ratio: 1; }
+.map__places li { display: contents; }
+.map__zoom { position: absolute; right: 6px; bottom: 6px; display: grid; gap: 4px; }
+.map__zoom button { appearance: none; width: 34px; height: 34px; padding: 0; border: 0; cursor: pointer; background: #fff; color: var(--paper-ink); box-shadow: 0 0 0 1px var(--paper-line); font: 700 1.05rem/1 var(--sc-font-text); }
+@media (hover: hover) and (pointer: fine) { .map__zoom button:hover { background: var(--paper-ink); color: #fff; } }
+.map figcaption span { font-weight: 500; letter-spacing: 0.08em; }
 .route { fill: none; stroke: var(--sc-accent); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s; }
 .route--far { transition-duration: 2.2s; transition-delay: 0.5s; }
 .map.is-on .route { stroke-dashoffset: 0; }
@@ -238,21 +244,25 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .pin-ring { fill: none; stroke: var(--sc-accent); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: ping 2.4s ease-out infinite; }
 @keyframes ping { from { transform: scale(1); opacity: 0.8; } to { transform: scale(3.2); opacity: 0; } }
 .map__places { list-style: none; margin: 0; padding: 0; }
-.place { position: absolute; display: grid; gap: 3px; max-width: 13rem; padding: 5px 8px 6px; background: rgb(244 243 239 / 0.9); box-shadow: 0 0 0 1px rgb(10 10 10 / 0.06); font: 500 0.78rem/1.3 var(--sc-font-text); color: var(--paper-soft); white-space: nowrap; }
+.place { position: absolute; left: 0; top: 0; text-align: left; border: 0; cursor: pointer; display: grid; gap: 3px; max-width: 13rem; padding: 5px 8px 6px; background: rgb(244 243 239 / 0.9); box-shadow: 0 0 0 1px rgb(10 10 10 / 0.06); font: 500 0.78rem/1.3 var(--sc-font-text); color: var(--paper-soft); white-space: nowrap; }
 .place b { font: 900 1.05rem/1 var(--sc-font-display); font-stretch: 85%; text-transform: uppercase; color: var(--paper-ink); }
-.place--bk { transform: translate(12px, calc(-100% - 8px)); }
-.place--fl { transform: translate(14px, 12px); }
-.place--ist { transform: translate(calc(-100% + 4px), calc(-100% - 12px)); text-align: right; }
+.place.is-hidden { visibility: hidden; }
+@media (hover: hover) and (pointer: fine) { .place:hover b { color: var(--sc-accent); } }
+.place--bk { translate: 12px calc(-100% - 8px); }
+.place--fl { translate: 14px 12px; }
+.place--ist { translate: calc(-100% + 4px) calc(-100% - 12px); text-align: right; }
 .map figcaption { margin-top: 10px; text-align: center; font: 700 0.7rem/1 var(--sc-font-text); letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper-soft); }
 @media (prefers-reduced-motion: reduce) { .route { transition: none; stroke-dashoffset: 0; } .pin-ring { animation: none; opacity: 0; } }
 @media (max-width: 860px) and (orientation: portrait) {
   .contact { top: calc(var(--ticker-h) + var(--bar-h) + 1rem); transform: none; width: auto; right: var(--sc-gutter); }
   .contact .book__credit { display: none; }
   .map { top: auto; bottom: 78px; transform: translateX(50%); right: 50%; width: min(80vw, 40svh); }
+  @media (max-height: 720px) { .map { width: min(72vw, 33svh); bottom: 70px; } .map figcaption { margin-top: 4px; } }
   .map figcaption { display: none; }
   .place { font-size: 0.62rem; padding: 3px 6px 4px; } .place b { font-size: 0.8rem; }
   .place--bk, .place--fl { white-space: normal; max-width: 7.4rem; }
-  .place--ist { transform: translate(calc(-100% + 4px), 14px); }
+  .place--ist { translate: calc(-100% + 4px) 14px; }
+  .map figcaption { display: block; } .map figcaption span { display: none; }
 }
 @media (max-height: 520px) and (orientation: landscape) {
   .contact { width: 46vw; }
@@ -540,22 +550,19 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       </div>
       <figure class="map" id="map" aria-labelledby="mapCap">
         <div class="map__globe">
-          <img src="assets/globe.svg" alt="" width="1000" height="1000" decoding="async">
-          <svg viewBox="0 0 1000 1000" aria-hidden="true">
-            <path class="route" pathLength="1" d="M221.4 371.6 L219.6 372.4 L217.8 373.1 L216.1 373.9 L214.3 374.7 L212.6 375.5 L210.8 376.3 L209.1 377.2 L207.3 378.0 L205.6 378.8 L203.9 379.7 L202.2 380.5 L200.5 381.4 L198.8 382.2 L197.2 383.1 L195.5 384.0 L193.9 384.9 L192.3 385.8 L190.7 386.7 L189.1 387.6 L187.5 388.6 L186.0 389.5 L184.5 390.5 L183.0 391.4 L181.5 392.4 L180.1 393.4 L178.7 394.4 L177.3 395.4 L175.9 396.4 L174.6 397.4 L173.3 398.5 L172.0 399.5 L170.7 400.6 L169.5 401.6 L168.3 402.7 L167.2 403.8 L166.0 404.9 L164.9 405.9 L163.9 407.0 L162.8 408.2 L161.8 409.3 L160.8 410.4 L159.8 411.5 L158.9 412.6 L158.0 413.8 L157.1 414.9 L156.3 416.1 L155.5 417.2 L154.7 418.4 L153.9 419.5 L153.2 420.7 L152.5 421.8 L151.8 423.0 L151.1 424.2 L150.4 425.3 L149.8 426.5 L149.2 427.7 L148.6 428.8 L148.0 430.0 L147.5 431.2 L146.9 432.3 L146.4 433.5 L145.9 434.7 L145.3 435.8 L144.8 437.0"/>
-            <path class="route route--far" pathLength="1" d="M221.4 371.6 L226.9 368.4 L232.7 365.3 L238.7 362.2 L245.0 359.1 L251.5 356.1 L258.3 353.1 L265.3 350.2 L272.6 347.3 L280.1 344.4 L287.9 341.6 L296.0 338.9 L304.2 336.3 L312.8 333.7 L321.5 331.3 L330.5 328.9 L339.7 326.6 L349.1 324.4 L358.7 322.3 L368.5 320.3 L378.5 318.4 L388.7 316.7 L399.0 315.0 L409.4 313.5 L420.0 312.1 L430.7 310.9 L441.5 309.7 L452.4 308.8 L463.4 307.9 L474.4 307.2 L485.5 306.6 L496.5 306.2 L507.6 305.9 L518.7 305.8 L529.8 305.8 L540.9 305.9 L551.8 306.2 L562.8 306.7 L573.6 307.2 L584.3 308.0 L594.9 308.8 L605.4 309.8 L615.8 310.9 L626.0 312.2 L636.0 313.5 L645.9 315.0 L655.5 316.7 L665.0 318.4 L674.2 320.2 L683.3 322.2 L692.1 324.2 L700.6 326.4 L709.0 328.6 L717.1 330.9 L724.9 333.4 L732.5 335.8 L739.8 338.4 L746.9 341.0 L753.7 343.7 L760.2 346.5 L766.5 349.3 L772.6 352.1 L778.4 355.0 L783.9 357.9 L789.2 360.8"/>
-            <circle class="pin-ring" cx="221.4" cy="371.6" r="11"/>
-            <circle class="pin" cx="221.4" cy="371.6" r="11"/>
-            <circle class="pin" cx="144.8" cy="437.0" r="9"/>
-            <circle class="pin" cx="789.2" cy="360.8" r="9"/>
-          </svg>
+          <canvas id="globe" role="img" aria-label="A globe with Ryan R's places marked: Brooklyn, Florida and Istanbul. Drag to spin it, pinch or use the buttons to zoom."></canvas>
           <ul class="map__places">
-            <li class="place place--bk" style="left:22.14%;top:37.160000000000004%"><b>Brooklyn</b>Below Grūnd · EKO · Synctika</li>
-            <li class="place place--fl" style="left:14.48%;top:43.7%"><b>Florida</b>Night Moves, Orlando · Project Pluto</li>
-            <li class="place place--ist" style="left:78.92%;top:36.08%"><b>Istanbul</b>Şahika</li>
+            <li><button type="button" class="place place--bk" data-place="bk"><b>Brooklyn</b>Below Grūnd · EKO · Synctika</button></li>
+            <li><button type="button" class="place place--fl" data-place="fl"><b>Florida</b>Night Moves, Orlando · Project Pluto</button></li>
+            <li><button type="button" class="place place--ist" data-place="ist"><b>Istanbul</b>Şahika</button></li>
           </ul>
+          <div class="map__zoom">
+            <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
+            <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
+            <button type="button" data-zoom="home" aria-label="Back to the whole map">⟲</button>
+          </div>
         </div>
-        <figcaption id="mapCap">Where he has played</figcaption>
+        <figcaption id="mapCap">Where he has played<span> · drag to spin, pinch to zoom</span></figcaption>
       </figure>
     </div>
   </div>
@@ -865,6 +872,210 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
 
   if (location.hash === '#contact' || location.hash === '#listen' || location.hash === '#book') { var land = function () { goTo(4); }; addEventListener('load', function () { setTimeout(land, 60); }); }
 
+})();
+</script>
+<script>
+/* ------------------------------------------------------------ the globe --
+   Where he has played, on a globe you can spin and zoom. The land is a
+   4096x2048 mask; every frame a fixed grid of dots is thrown onto the
+   screen and each dot asks the mask whether it is over land, so the dots
+   stay the same size at every zoom and the coast sharpens as you go in. */
+(function () {
+  'use strict';
+  var fig = document.getElementById('map'); if (!fig) return;
+  var cv = document.getElementById('globe'), ctx = cv.getContext('2d');
+  var block = fig.closest('[data-sc-copy]');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RAD = Math.PI / 180;
+  var PLACES = {
+    bk:  { lon: -73.95, lat: 40.68, z: 6 },
+    fl:  { lon: -81.38, lat: 28.54, z: 4.5 },
+    ist: { lon: 28.98,  lat: 41.01, z: 6 }
+  };
+  var ROUTES = [['bk', 'fl'], ['bk', 'ist']];
+  // Florida's outline (Natural Earth, simplified): the state is lit for Project Pluto
+  var FL = [[-87.49,30.38],[-87.43,30.48],[-87.42,30.67],[-87.61,30.93],[-86.95,31.0],[-85.98,31.0],[-85.01,31.0],[-84.88,30.72],[-84.47,30.7],[-83.99,30.67],[-83.52,30.64],[-83.04,30.61],[-82.56,30.58],[-82.24,30.53],[-82.19,30.39],[-82.06,30.4],[-82.04,30.65],[-81.98,30.79],[-81.88,30.81],[-81.46,30.64],[-81.25,29.79],[-80.56,28.56],[-80.58,28.36],[-80.53,28.07],[-80.61,28.18],[-80.63,28.52],[-80.69,28.34],[-80.69,28.58],[-80.78,28.68],[-80.84,28.76],[-80.75,28.38],[-80.23,27.21],[-80.05,26.81],[-80.13,25.83],[-80.16,25.88],[-80.33,25.43],[-80.56,25.23],[-81.01,25.13],[-81.16,25.27],[-80.97,25.22],[-81.06,25.34],[-81.35,25.73],[-81.72,25.98],[-81.93,26.47],[-81.83,26.69],[-81.97,26.55],[-82.08,26.7],[-82.1,26.96],[-82.18,26.84],[-82.35,26.94],[-82.66,27.45],[-82.64,27.52],[-82.4,27.84],[-82.5,27.87],[-82.64,27.98],[-82.6,27.87],[-82.66,27.72],[-82.78,27.73],[-82.75,28.24],[-82.64,28.81],[-83.29,29.45],[-84.31,30.06],[-84.36,29.93],[-84.55,29.9],[-84.97,29.75],[-85.32,29.68],[-85.41,29.84],[-85.31,29.76],[-85.5,29.98],[-85.61,30.15],[-85.6,30.29],[-85.74,30.2],[-85.86,30.21],[-86.24,30.43],[-86.17,30.46],[-86.45,30.5],[-86.68,30.4],[-87.16,30.37],[-86.97,30.5],[-87.07,30.5],[-87.18,30.45],[-87.48,30.29],[-87.45,30.39]];
+  function inFlorida(lon, lat) {
+    if (lon < -87.7 || lon > -79.9 || lat < 24.4 || lat > 31.1) return false;
+    for (var i = 0, j = FL.length - 1, c = false; i < FL.length; j = i++) {
+      var a = FL[i], b = FL[j];
+      if ((a[1] > lat) !== (b[1] > lat) && lon < (b[0] - a[0]) * (lat - a[1]) / (b[1] - a[1]) + a[0]) c = !c;
+    }
+    return c;
+  }
+  var HOME = { lon: -24, lat: 34, z: 1 };
+  var view = { lon: HOME.lon, lat: HOME.lat, z: 1 }, goal = null, vel = { lon: 0, lat: 0 };
+  var labels = {}; fig.querySelectorAll('.place').forEach(function (b) { labels[b.dataset.place] = b; });
+  var mask = null, MW = 0, MH = 0, W = 0, dpr = 1, dirty = true, routeT = 0, lastT = 0;
+
+  function loadMask() {
+    if (loadMask.started) return; loadMask.started = true;
+    var img = new Image();
+    img.onload = function () {
+      var c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      var x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(img, 0, 0);
+      var d = x.getImageData(0, 0, c.width, c.height).data;
+      MW = c.width; MH = c.height; mask = new Uint8Array(MW * MH);
+      for (var i = 0, n = MW * MH; i < n; i++) mask[i] = d[i * 4];
+      dirty = true;
+    };
+    img.src = 'assets/land-mask.png';
+  }
+
+  function size() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = cv.clientWidth || 1;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr);
+    dirty = true;
+  }
+  addEventListener('resize', size);
+
+  function project(lon, lat, h, r, sp0, cp0) {
+    var l = (lon - view.lon) * RAD, p = lat * RAD, cp = Math.cos(p);
+    var cosc = sp0 * Math.sin(p) + cp0 * cp * Math.cos(l);
+    return { x: W / 2 + r * h * cp * Math.sin(l), y: W / 2 - r * h * (cp0 * Math.sin(p) - sp0 * cp * Math.cos(l)), vis: cosc > -0.02 };
+  }
+  function vec(lon, lat) { var a = lon * RAD, b = lat * RAD; return [Math.cos(b) * Math.cos(a), Math.cos(b) * Math.sin(a), Math.sin(b)]; }
+
+  function draw(now) {
+    var r = W * 0.48 * view.z, cx = W / 2, cy = W / 2;
+    var sp0 = Math.sin(view.lat * RAD), cp0 = Math.cos(view.lat * RAD);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, W);
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'rgba(10,10,10,0.12)'; ctx.lineWidth = 1; ctx.stroke();
+
+    if (mask) {
+      var S = W < 420 ? 5 : 6.5, D = W < 420 ? 1.7 : 2.1;
+      var land = new Path2D(), fla = new Path2D();
+      var x0 = Math.max(S / 2, cx - r), x1 = Math.min(W, cx + r), y0 = Math.max(S / 2, cy - r), y1 = Math.min(W, cy + r);
+      x0 = S / 2 + Math.ceil((x0 - S / 2) / S) * S; y0 = S / 2 + Math.ceil((y0 - S / 2) / S) * S;
+      for (var y = y0; y < y1; y += S) {
+        var ny = (cy - y) / r;
+        for (var x = x0; x < x1; x += S) {
+          var nx = (x - cx) / r, rho2 = nx * nx + ny * ny;
+          if (rho2 >= 0.995) continue;
+          var cosc = Math.sqrt(1 - rho2);
+          var lat = Math.asin(cosc * sp0 + ny * cp0) / RAD;
+          var lon = view.lon + Math.atan2(nx, cosc * cp0 - ny * sp0) / RAD;
+          var mx = ((((lon + 180) % 360) + 360) % 360) / 360 * MW | 0, my = (90 - lat) / 180 * MH | 0;
+          if (mask[my * MW + mx] < 128) continue;
+          (inFlorida(((lon + 540) % 360) - 180, lat) ? fla : land).rect(x - D / 2, y - D / 2, D, D);
+        }
+      }
+      ctx.fillStyle = 'rgba(10,10,10,0.5)'; ctx.fill(land);
+      ctx.fillStyle = 'rgba(255,45,26,0.9)'; ctx.fill(fla);
+    }
+
+    // routes out of Brooklyn: great circles, lifted off the surface in the middle
+    ctx.lineWidth = 2; ctx.strokeStyle = '#ff2d1a'; ctx.lineCap = 'round';
+    ROUTES.forEach(function (rt, k) {
+      var A = vec(PLACES[rt[0]].lon, PLACES[rt[0]].lat), B = vec(PLACES[rt[1]].lon, PLACES[rt[1]].lat);
+      var om = Math.acos(Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]));
+      var t = Math.max(0, Math.min(1, (routeT - k * 0.25) / 0.75)), N = 60, drawing = false;
+      ctx.beginPath();
+      for (var i = 0; i <= N * t; i++) {
+        var f = i / N, a = Math.sin((1 - f) * om) / Math.sin(om), b = Math.sin(f * om) / Math.sin(om);
+        var P = [a * A[0] + b * B[0], a * A[1] + b * B[1], a * A[2] + b * B[2]];
+        var q = project(Math.atan2(P[1], P[0]) / RAD, Math.asin(P[2]) / RAD, 1 + 0.3 * Math.sin(Math.PI * f) * om / Math.PI * 1.4, r, sp0, cp0);
+        if (!q.vis) { drawing = false; continue; }
+        if (drawing) ctx.lineTo(q.x, q.y); else { ctx.moveTo(q.x, q.y); drawing = true; }
+      }
+      ctx.stroke();
+    });
+
+    // pins and their labels
+    Object.keys(PLACES).forEach(function (k) {
+      var q = project(PLACES[k].lon, PLACES[k].lat, 1, r, sp0, cp0);
+      var inView = q.vis && q.x > 4 && q.x < W - 4 && q.y > 4 && q.y < W - 4;
+      labels[k].classList.toggle('is-hidden', !inView);
+      if (!inView) return;
+      labels[k].style.left = q.x.toFixed(1) + 'px'; labels[k].style.top = q.y.toFixed(1) + 'px';
+      if (k === 'bk' && !reduce) {
+        var ph = (now % 2400) / 2400;
+        ctx.beginPath(); ctx.arc(q.x, q.y, 5 + ph * 12, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'rgba(255,45,26,' + (0.8 * (1 - ph)).toFixed(3) + ')'; ctx.lineWidth = 1.5; ctx.stroke();
+      }
+      ctx.beginPath(); ctx.arc(q.x, q.y, k === 'bk' ? 5.5 : 4.5, 0, 2 * Math.PI);
+      ctx.fillStyle = '#ff2d1a'; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = '#f4f3ef'; ctx.stroke();
+    });
+  }
+
+  function wrap(d) { return ((d + 540) % 360) - 180; }
+  function fly(to) { goal = { lon: to.lon, lat: to.lat, z: to.z }; vel.lon = vel.lat = 0; if (reduce) { view.lon = to.lon; view.lat = to.lat; view.z = to.z; goal = null; } dirty = true; }
+  function zoomBy(f) { var z = Math.max(1, Math.min(14, (goal ? goal.z : view.z) * f)); fly({ lon: goal ? goal.lon : view.lon, lat: goal ? goal.lat : view.lat, z: z }); }
+
+  // drag to spin, two fingers to pinch
+  // the whole globe takes the drag, labels included (a label only counts as a click if you didn't drag)
+  var area = fig.querySelector('.map__globe'), moved = 0, suppress = 0;
+  var pts = new Map(), pinch0 = 0, z0 = 1, lastMove = 0;
+  area.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('.map__zoom')) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    moved = 0; area.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    goal = null; vel.lon = vel.lat = 0;
+    if (pts.size === 2) { var a = Array.from(pts.values()); pinch0 = Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y); z0 = view.z; }
+  });
+  area.addEventListener('pointermove', function (e) {
+    if (!pts.has(e.pointerId)) return;
+    var p = pts.get(e.pointerId), dx = e.clientX - p.x, dy = e.clientY - p.y;
+    moved += Math.abs(dx) + Math.abs(dy);
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pts.size === 2) {
+      var a = Array.from(pts.values()), d = Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y);
+      if (pinch0) view.z = Math.max(1, Math.min(14, z0 * d / pinch0));
+    } else {
+      var r = W * 0.48 * view.z, k = 1 / r / RAD;
+      var dl = -dx * k, dp = dy * k;
+      view.lon = wrap(view.lon + dl); view.lat = Math.max(-80, Math.min(80, view.lat + dp));
+      vel.lon = Math.max(-1.5, Math.min(1.5, dl)) * 0.6; vel.lat = Math.max(-1.5, Math.min(1.5, dp)) * 0.6; lastMove = performance.now();
+    }
+    dirty = true;
+  });
+  function up(e) { if (moved > 6) suppress = performance.now() + 300; pts.delete(e.pointerId); if (pts.size < 2) pinch0 = 0; if (performance.now() - lastMove > 80 || reduce) vel.lon = vel.lat = 0; }
+  area.addEventListener('pointerup', up); area.addEventListener('pointercancel', up);
+  // trackpad pinch (ctrl+wheel) and ⌘-scroll zoom; a plain scroll is left to the page
+  cv.addEventListener('wheel', function (e) {
+    if (!e.ctrlKey && !e.metaKey) return;
+    e.preventDefault(); goal = null;
+    view.z = Math.max(1, Math.min(14, view.z * Math.exp(-e.deltaY * 0.01))); dirty = true;
+  }, { passive: false });
+  cv.addEventListener('dblclick', function (e) {
+    var b = cv.getBoundingClientRect(), r = W * 0.48 * view.z;
+    var nx = (e.clientX - b.left - W / 2) / r, ny = (W / 2 - (e.clientY - b.top)) / r, rho2 = nx * nx + ny * ny;
+    if (rho2 >= 1) return;
+    var sp0 = Math.sin(view.lat * RAD), cp0 = Math.cos(view.lat * RAD), cosc = Math.sqrt(1 - rho2);
+    fly({ lat: Math.asin(cosc * sp0 + ny * cp0) / RAD, lon: view.lon + Math.atan2(nx, cosc * cp0 - ny * sp0) / RAD, z: Math.min(14, view.z * 2) });
+  });
+  fig.querySelectorAll('.place').forEach(function (b) { b.addEventListener('click', function () { if (performance.now() < suppress) return; fly(PLACES[b.dataset.place]); }); });
+  fig.querySelectorAll('[data-zoom]').forEach(function (b) {
+    b.addEventListener('click', function () { var m = b.dataset.zoom; if (m === 'home') fly(HOME); else zoomBy(m === 'in' ? 1.8 : 1 / 1.8); });
+  });
+
+  function frame(now) {
+    var dt = Math.min(0.05, (now - (lastT || now)) / 1000); lastT = now;
+    var shown = parseFloat(block.style.opacity || '0') > 0.01;
+    if (shown) {
+      loadMask();
+      if (!W) size();
+      var on = fig.classList.contains('is-on');
+      var nt = on ? Math.min(1, routeT + dt / (reduce ? 0.01 : 2.2)) : 0;
+      if (nt !== routeT) { routeT = nt; dirty = true; }
+      if (goal) {
+        var e = reduce ? 1 : 0.12;
+        view.lon = wrap(view.lon + wrap(goal.lon - view.lon) * e); view.lat += (goal.lat - view.lat) * e; view.z += (goal.z - view.z) * e;
+        if (Math.abs(wrap(goal.lon - view.lon)) < 0.01 && Math.abs(goal.lat - view.lat) < 0.01 && Math.abs(goal.z - view.z) < 0.002) { view.lon = goal.lon; view.lat = goal.lat; view.z = goal.z; goal = null; }
+        dirty = true;
+      } else if (!pts.size && (Math.abs(vel.lon) > 0.001 || Math.abs(vel.lat) > 0.001)) {
+        view.lon = wrap(view.lon + vel.lon); view.lat = Math.max(-80, Math.min(80, view.lat + vel.lat));
+        vel.lon *= 0.86; vel.lat *= 0.86; dirty = true;
+      }
+      if (dirty || !reduce) { draw(now); dirty = false; }
+    }
+    requestAnimationFrame(frame);
+  }
+  if (document.readyState === 'complete') size(); else addEventListener('load', size);
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
