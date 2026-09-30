@@ -34,7 +34,7 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   color-scheme: dark;
 }
-html { background: var(--sc-canvas); }
+html { background: var(--sc-canvas); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { margin: 0; background: var(--sc-canvas); color: var(--sc-ink); font: 400 var(--sc-t-base)/1.6 var(--sc-font-text); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
 ::selection { background: var(--sc-accent); color: #fff; }
@@ -175,7 +175,7 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .room__name {
   margin: 0; line-height: 0.82; text-transform: uppercase; white-space: nowrap; color: #fff;
   font-family: var(--sc-font-display); font-weight: 900; font-size: clamp(3.4rem, 12vw, 11.5rem); letter-spacing: -0.03em;
-  font-stretch: calc(var(--w, 70) * 1%);
+  font-stretch: 70%;
   transform: scale(calc(1 + var(--kick, 0) * 0.035)); transform-origin: 0 100%;
 }
 .room__name .rule { display: block; height: 0.06em; width: calc(1.2em + var(--kick, 0) * 1.2em); background: var(--sc-accent); margin-top: 0.08em; }
@@ -302,6 +302,16 @@ form.f { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: clam
 form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
 }
 @media (max-width: 860px) and (orientation: portrait) {
+  /* Whole frames on a phone: every video and photo fits the width, centred,
+     with the black of the room above and below. Nothing is cropped. */
+  .sc-world video, .sc-world .sc-world__poster, .seg-live, .hero video { object-fit: contain !important; background: #000 !important; }
+  .sc-world .sc-world__poster { transform: none !important; }
+  /* the floor and the lasers sit low, under the words */
+  [data-sc-world] > [data-sc-segment]:nth-child(-n+2) :is(video, .sc-world__poster) { object-position: 50% 84% !important; }
+  .side-scrim { background: linear-gradient(to bottom, rgb(0 0 0 / 0.85) 0%, rgb(0 0 0 / 0.6) 50%, transparent 68%); }
+  .door__name { translate: 0 0; }
+  .still-inset { width: 34vw; }
+  .still-inset figcaption { font-size: 0.6rem; letter-spacing: 0.08em; overflow-wrap: anywhere; }
   .door__name .br { display: block; height: 0; }
   .door__name { text-align: center; line-height: 0.86; translate: 0 -8vh; }
   /* Listen on a phone: the sets first, then the ways to reach him */
@@ -309,6 +319,13 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   .book h2 { order: 1; } .book .lede { order: 2; } .sets-wrap { order: 3; } .ways { order: 4; margin-top: 4px; }
   .book { top: calc(var(--ticker-h) + var(--bar-h) + 1rem); bottom: 84px;
     -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent); padding-bottom: 28px; }
+}
+@media (max-width: 860px) and (orientation: portrait) and (max-height: 720px) {
+  .big { font-size: clamp(1.9rem, 10vw, 2.4rem); }
+  .block p.body { font-size: 0.8rem; line-height: 1.5; margin-top: 10px; }
+  .genres { margin-top: 12px; } .genres li { padding: 5px 8px; font-size: 0.7rem; }
+  .listen-sc { margin-top: 12px; height: 38px; }
+  .gigs li { padding: 6px 0; } .g-name { font-size: 1rem; } .g-where { font-size: 0.8rem; }
 }
 /* Phones held sideways: very little height. Slimmer chrome, no slider,
    copy set in two columns so nothing runs off the bottom. */
@@ -606,7 +623,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
 
   /* ------------------------------------------------------------ the door -- */
   var hero = $('hero'), live = $('live'), door = $('door'), letters = $('doorLetters'), street = $('street'), haze = $('haze');
-  var ROOM_SRC = portrait ? 'assets/room-m.mp4' : 'assets/room.mp4';
+  var ROOM_SRC = small ? 'assets/room-m.mp4' : 'assets/room.mp4';
   live.src = ROOM_SRC;
   if (!reduce) { var p0 = live.play(); if (p0 && p0.catch) p0.catch(function () {}); }
 
@@ -783,7 +800,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
     } else kick *= 0.9;
     if (!reduce) {
       roomName.style.setProperty('--kick', Math.max(kick * (1 - b), punch).toFixed(3));
-      roomName.style.setProperty('--w', (70 + b * (small ? 32 : 80)).toFixed(1));
+      roomName.style.fontStretch = (70 + b * (small ? 32 : 80)).toFixed(1) + '%';
     }
 
     // the lights come up at the end: ink goes dark
@@ -803,6 +820,10 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   addEventListener('resize', onResize);
   addEventListener('load', function () { dispatchEvent(new Event('resize')); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { dispatchEvent(new Event('resize')); });
+  // Safari can report fonts ready before the display face has arrived; ask for it by name too.
+  if (document.fonts && document.fonts.load) document.fonts.load('900 100px Anybody').then(onResize, function () {});
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', onResize);
+  setTimeout(onResize, 800); setTimeout(onResize, 2500);
   onResize();
   requestAnimationFrame(frame);
 
