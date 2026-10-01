@@ -880,12 +880,6 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
 })();
 </script>
 <script>
-/* The page is one fixed stage, so Safari's pinch-magnify only ever breaks it
-   (the bar and ticker slide off and the scene is cropped). Pinches are caught
-   here; over the globe they zoom the globe. ⌘+ / ⌘− still resize the page. */
-['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) {
-  document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false });
-});
 // Safari's Smart Zoom (a two-finger double tap) can't be blocked by a page, and
 // on this fixed stage it just crops everything. If the page ends up magnified,
 // say how to get back, in the corner of what is actually on screen.
@@ -894,7 +888,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   var note = document.createElement('p');
   note.className = 'zoom-note'; note.setAttribute('role', 'status');
   var mac = /Mac/.test(navigator.platform) && !('ontouchend' in document);
-  note.textContent = mac ? 'Zoomed in. Tap twice with two fingers on the trackpad to reset.' : 'Zoomed in. Pinch out to reset.';
+  note.textContent = mac ? 'Zoomed in. Pinch in on the trackpad (or tap twice with two fingers) to reset.' : 'Zoomed in. Pinch out to reset.';
   document.body.appendChild(note);
   function check() {
     var on = vv.scale > 1.05;
