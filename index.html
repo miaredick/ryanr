@@ -884,14 +884,6 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) {
   document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false });
 });
-// ?diag: a small readout of how the browser is sizing this page
-if (/[?&]diag/.test(location.search)) {
-  var dg = document.createElement('pre');
-  dg.style.cssText = 'position:fixed;z-index:999;left:8px;bottom:8px;margin:0;padding:8px 10px;background:#fff;color:#000;font:12px/1.4 ui-monospace,monospace;pointer-events:none';
-  document.body.appendChild(dg);
-  var upd = function () { var vv = window.visualViewport || {}; dg.textContent = 'window ' + innerWidth + ' x ' + innerHeight + '\nmagnification ' + (vv.scale || 1).toFixed(2) + '\nzoom ' + (outerWidth / innerWidth).toFixed(2) + '\ndpr ' + devicePixelRatio; };
-  upd(); addEventListener('resize', upd); if (window.visualViewport) visualViewport.addEventListener('resize', upd); setInterval(upd, 1000);
-}
 </script>
 <script>
 /* ------------------------------------------------------------ the globe --
