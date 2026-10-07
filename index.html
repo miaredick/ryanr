@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://miaredick.github.io/ryanr/">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Ryan R", "alternateName": "Ryan Redick", "jobTitle": "DJ", "description": "Atlanta-raised, Brooklyn-based DJ playing hypnotic techno, hard groove, electro and leftfield house.", "url": "https://miaredick.github.io/ryanr/", "homeLocation": {"@type": "Place", "name": "Brooklyn, New York"}, "sameAs": ["https://soundcloud.com/rian408", "https://www.instagram.com/ryanredick/"]}</script>
-<link rel="icon" href="data:,">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 fill=%27%230a0a0a%27/%3E%3Ctext x=%2732%27 y=%2748%27 text-anchor=%27middle%27 font-family=%27Arial Black,Arial,sans-serif%27 font-weight=%27900%27 font-size=%2746%27 fill=%27%23ff2d1a%27%3ER%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,300..900&family=Hanken+Grotesk:wght@400..700&display=swap" rel="stylesheet">
@@ -209,7 +209,7 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .hold span { position: relative; }
 .hold:active { transform: scale(0.96); }
 .is-building .hold { color: #000; background: rgb(255 255 255 / 0.3); }
-.hold-tip { position: absolute; top: 42%; left: 50%; translate: -50% 0; margin: 0; font: 900 clamp(1.6rem, 3.4vw, 2.6rem)/1 var(--sc-font-display); font-stretch: 120%; text-transform: uppercase; color: #000; opacity: 0; pointer-events: none; transition: opacity 200ms; white-space: nowrap; }
+.hold-tip { position: absolute; top: 26%; left: 50%; translate: -50% 0; margin: 0; font: 900 clamp(1.6rem, 3.4vw, 2.6rem)/1 var(--sc-font-display); font-stretch: 120%; text-transform: uppercase; color: #000; opacity: 0; pointer-events: none; transition: opacity 200ms; white-space: nowrap; }
 .is-full .hold-tip { opacity: 1; }
 .credit-live { position: absolute; top: calc(var(--ticker-h) + var(--bar-h) + 14px); left: var(--sc-gutter); margin: 0; font: 700 0.7rem/1.4 var(--sc-font-text); letter-spacing: 0.14em; text-transform: uppercase; color: rgb(255 255 255 / 0.75); }
 
@@ -368,6 +368,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
   .sc-world .sc-world__poster { transform: none !important; }
   /* the last page is plain paper: it always fills the screen */
   [data-sc-world] > [data-sc-segment]:last-child .sc-world__poster { object-fit: cover !important; }
+  .hold-tip { top: calc(var(--ticker-h) + var(--bar-h) + 7vh); }
   /* the room sits high, his name and words under it */
   [data-sc-world] > [data-sc-segment]:nth-child(4) :is(video, .sc-world__poster) { object-position: 50% 16% !important; }
   /* the floor and the lasers sit low, under the words */
@@ -504,7 +505,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
     </div>
 
     <div class="fill" data-sc-copy data-sc-window="0.2 0.365 0.2 0.16">
-      <div class="side-scrim"></div>
+      <div class="side-scrim floor-scrim"></div>
       <div class="block">
         <p class="eyebrow">Played</p>
         <ul class="gigs" id="gigs"></ul>
@@ -613,7 +614,7 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
     { name: 'Night Moves', where: 'Orlando · 14-hour techno rave', when: '' },
     { name: 'Project Pluto', where: 'Florida', when: '' }
   ];
-  // Real flyers from nights he played: { src: 'assets/flyer-x.jpg', alt: '...' }. Shown in Played once there are any.
+  // Real flyers from nights he played: { src: (image in assets), alt: '...' }. Shown in Played once there are any.
   var FLYERS = [];
   var PLAYED = ['Sector FM', 'AR Radio', 'Below Grūnd', 'Der Letzte Techno Night', 'Synctika 001', 'Şahika Istanbul', 'Night Moves Orlando', 'Project Pluto'];
 
@@ -789,6 +790,8 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
 
   /* --------------------------------------------------------------- loop --- */
   var lastT = 0, cueEl = $('cue'), mapEl = $('map');
+  // a slide that isn't showing is inert: no Tab stops, nothing for a screen reader to trip over
+  var slides = Array.prototype.slice.call(document.querySelectorAll('[data-sc-copy]')), slideOn = slides.map(function () { return null; });
   function frame(t) {
     var dt = Math.min(0.05, (t - (lastT || t)) / 1000); lastT = t;
     var pr = progress();
@@ -850,6 +853,10 @@ form.f { grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px; }
       if (fs !== lastStretch) { roomName.style.fontStretch = fs; lastStretch = fs; }
     }
 
+    for (var si = 0; si < slides.length; si++) {
+      var live2 = parseFloat(slides[si].style.opacity || '0') > 0.5;
+      if (live2 !== slideOn[si]) { slideOn[si] = live2; slides[si].inert = !live2; }
+    }
     mapEl.classList.toggle('is-on', pr > 0.9);
     // the lights come up at the end: ink goes dark
     var light = pr > 0.84 || b > 0.45;
